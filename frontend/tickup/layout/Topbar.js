@@ -41,58 +41,65 @@ function Topbar(props) {
                         position={'relative'}
                         width={isSmall?'56px':isMed?'64px':'72px'}
                         sx={{
-                            transition: 'all 0.3s linear'
+                            transition: 'all 0.3s linear',
+                            cursor: 'pointer'
                         }}
                     >
                         <Image layout={'responsive'} src={Logo} />
                     </Box>
-                    <Typography
-                        component={'h1'}
-                        fontFamily={'Russo One'}
-                        marginLeft={isSmall?'12px':isMed?'16px':'20px'}
-                        fontSize={isSmall?'28px':'36px'}
-                        color={theme.palette.primary.main}
-                        sx={{
-                            transition: 'all 0.3s linear'
-                        }}
-                    >
-                        Tick Up
-                    </Typography>
+                    <Link href={'/'}>
+                        <Typography
+                            component={'h1'}
+                            fontFamily={'Russo One'}
+                            marginLeft={isSmall?'12px':isMed?'16px':'20px'}
+                            fontSize={isSmall?'28px':'36px'}
+                            color={theme.palette.primary.main}
+                            sx={{
+                                transition: 'all 0.3s linear',
+                                cursor: 'pointer'
+                            }}
+                        >
+                            Tick Up
+                        </Typography>
+                    </Link>
                 </Box>
                 <Hidden only={['xs', 'sm']}>
-                    
+                    {router.pathname !== '/login' && router.pathname !== '/signup' &&
                     <Box
                         display={'flex'}
                         alignItems={'center'}
                     >
                         <Box width={'fit-content'} marginRight={'24px'}>
                             <Link href={'/explore'}>
-                                <a className={router.pathname=='/explore'?'menu_link_desktop_active':'menu_link_desktop'}>Become a Merchant</a>
+                                <a className={router.pathname=='/merchant/dashboard'?'menu_link_desktop_active':'menu_link_desktop'}>Become a Merchant</a>
                             </Link>
                         </Box>
-                        <Button
-                            variant={'outlined'}
-                            sx={{
-                                backgroundColor: 'transparent',
-                                color: theme.palette.primary.main,
-                                borderColor: theme.palette.primary.main,
-                                '&:hover':{
-                                    backgroundColor: theme.palette.primary.main,
-                                    color: 'white',
-                                },
-                                textTransform: 'capitalize'
-                            }}
-                        >
-                            Log In
-                        </Button>
-                    </Box>
+                        <Link href={'/login'}>
+                            <Button
+                                variant={'outlined'}
+                                sx={{
+                                    backgroundColor: 'transparent',
+                                    color: theme.palette.primary.main,
+                                    borderColor: theme.palette.primary.main,
+                                    '&:hover':{
+                                        backgroundColor: theme.palette.primary.main,
+                                        color: 'white',
+                                    },
+                                    textTransform: 'capitalize'
+                                }}
+                            >
+                                Log In
+                            </Button>
+                        </Link>
+                    </Box>}
                 </Hidden>
                 <Hidden only={['md','lg','xl']}>
+                    {router.pathname !== '/login' && router.pathname !== '/signup' &&
                     <Box>
                         <IconButton color={'primary'} onClick={handleOpenSidebar}>
                             <MdMenu />
                         </IconButton>
-                    </Box>
+                    </Box>}
                 </Hidden>
             </Box>
 

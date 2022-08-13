@@ -52,17 +52,19 @@ function Sidebar(props) {
                 >
                     <Image layout={'responsive'} src={Logo} />
                 </Box>
-                <Typography
-                    component={'h1'}
-                    fontFamily={'Russo One'}
-                    fontSize={'36px'}
-                    color={theme.palette.primary.main}
-                    sx={{
-                        transition: 'all 0.3s linear'
-                    }}
-                >
-                    Tick Up
-                </Typography>
+                <Link href={'/'}>
+                    <Typography
+                        component={'h1'}
+                        fontFamily={'Russo One'}
+                        fontSize={'36px'}
+                        color={theme.palette.primary.main}
+                        sx={{
+                            transition: 'all 0.3s linear'
+                        }}
+                    >
+                        Tick Up
+                    </Typography>
+                </Link>
             </Box>
             <Box width={'100%'} textAlign={'center'} marginTop={5} marginBottom={1}>
                 <Link href={'/explore'}>
@@ -76,22 +78,24 @@ function Sidebar(props) {
                 marginX={'auto'}
                 marginTop={3}
             >
-                <Button
-                    variant={'outlined'}
-                    fullWidth
-                    sx={{
-                        backgroundColor: 'transparent',
-                        color: theme.palette.primary.main,
-                        borderColor: theme.palette.primary.main,
-                        '&:hover':{
-                            backgroundColor: theme.palette.primary.main,
-                            color: 'white',
-                        },
-                        textTransform: 'capitalize'
-                    }}
-                >
-                    Log In
-                </Button>
+                <Link href={'/login'}>
+                    <Button
+                        variant={'outlined'}
+                        fullWidth
+                        sx={{
+                            backgroundColor: 'transparent',
+                            color: theme.palette.primary.main,
+                            borderColor: theme.palette.primary.main,
+                            '&:hover':{
+                                backgroundColor: theme.palette.primary.main,
+                                color: 'white',
+                            },
+                            textTransform: 'capitalize'
+                        }}
+                    >
+                        Log In
+                    </Button>
+                </Link>
             </Box>
         </Drawer>
     )
