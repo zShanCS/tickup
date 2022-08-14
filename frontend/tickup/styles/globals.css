@@ -17,11 +17,13 @@ a {
 }
 
 .menu_link_desktop{
-  color: #274C77
+  color: #274C77;
+  transition: all 0.05s linear;
 }
 .menu_link_desktop:hover{
   color: #274C77;
   font-weight: bold;
+  transition: all 0.05s linear;
 }
 .menu_link_desktop_active{
   color: #274C77;
