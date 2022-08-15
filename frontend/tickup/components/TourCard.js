@@ -2,6 +2,7 @@ import { Box, useTheme, Typography, Button } from '@mui/material'
 import Image from 'next/image'
 import React from 'react'
 import Tour1 from '../public/images/tour1.jpg'
+import Link from 'next/link'
 
 function TourCard() {
     const theme = useTheme()
@@ -30,17 +31,19 @@ function TourCard() {
                 <Image src={Tour1} layout={'fill'} objectFit={'cover'} />
             </Box>
             <Box>
-                <Typography 
-                    component={'h3'}
-                    fontSize={'16px'}
-                    fontWeight={'500'}
-                    lineHeight={'18px'}
-                    textAlign={'center'}
-                    color={theme.palette.primary.main}
-                    marginTop={'12px'}
-                >
-                    5 Days Tour to Kashmir (Arang Kel and Taobat)
-                </Typography>
+                <Link href={'/tours/123'}>
+                    <Typography 
+                        component={'h3'}
+                        fontSize={'16px'}
+                        fontWeight={'500'}
+                        lineHeight={'18px'}
+                        textAlign={'center'}
+                        color={theme.palette.primary.main}
+                        marginTop={'12px'}
+                    >
+                        5 Days Tour to Kashmir (Arang Kel and Taobat)
+                    </Typography>
+                </Link>
                 <Typography
                     component={'h3'}
                     fontSize={'14px'}
@@ -59,9 +62,11 @@ function TourCard() {
                     alignItems={'center'}
                 >
                     <Typography>Rs 20,000</Typography>
-                    <Button variant={'contained'}>
-                        Book Seat
-                    </Button>
+                    <Link href={'/tours/123/checkout'}>
+                        <Button variant={'contained'}>
+                            Book Seat
+                        </Button>
+                    </Link>
                 </Box>
             </Box>
         </Box>

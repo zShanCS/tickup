@@ -19,7 +19,7 @@ export default function Home() {
             width={'100%'}
             marginY={'28px'}
         >
-            <Container>
+            <Container maxWidth="xl">
                 <Box
                     width={'100%'}
                 >
@@ -43,7 +43,7 @@ export default function Home() {
                                     backgroundColor={theme.palette.secondary.light}
                                     padding={'16px'}
                                     borderRadius={'8px'}
-                                    display={isMed?(showFilter?'block':'none'):'block'}
+                                    // display={isMed?(showFilter?'block':'none'):'block'}
                                 >
                                     <FormControl>
                                         <FormLabel>Days</FormLabel>
@@ -81,11 +81,12 @@ export default function Home() {
                                 </Box>
                             </Grow>
                         </Grid>
-                        <Grid item xs={12} md={9} xl={10}>
+                        <Grid item xs={12} sm={12} md={9} xl={10}>
                             <Box
                                 width={'100%'}
                                 sx={{
                                     transition: 'all 0.3s linear',
+                                    marginTop: showFilter?'0px':isMed?(isSmall?'-300px':'-220px'):'0px',
                                 }}
                             >
                                 <Typography 
