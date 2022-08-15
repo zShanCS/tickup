@@ -70,9 +70,15 @@ function Topbar(props) {
                         alignItems={'center'}
                     >
                         <Box width={'fit-content'} marginRight={'24px'}>
-                            <Link href={'/explore'}>
-                                <a className={router.pathname=='/merchant/dashboard'?'menu_link_desktop_active':'menu_link_desktop'}>Become a Merchant</a>
-                            </Link>
+                            {router.pathname === '/dashboard'? (
+                                <Link href={'/tours'}>
+                                    <a className={router.pathname=='/tours'?'menu_link_desktop_active':'menu_link_desktop'}>Become a Customer</a>
+                                </Link>
+                            ):(
+                                <Link href={'/dashboard'}>
+                                    <a className={router.pathname=='/dashboard'?'menu_link_desktop_active':'menu_link_desktop'}>Become a Seller</a>
+                                </Link>
+                            )}
                         </Box>
                         <Link href={'/login'}>
                             <Button

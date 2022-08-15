@@ -15,6 +15,7 @@ import TourGuideIcon from '../../../public/images/icons/tour-guide.png'
 import OffRoadIcon from '../../../public/images/icons/jeep.png'
 import Image from 'next/image';
 import BookSeatsModal from '../../../modals/BookSeatsModal'
+import Link from 'next/link'
 
 const tourPics = [Tour1, Tour2, Tour3, Tour4]
 const servicesProvided = [
@@ -203,22 +204,23 @@ function BookTourPage() {
                     width={'100%'}
                     justifyContent={'center'}
                 >
-                    <Button 
-                        sx={{
-                            color: theme.palette.primary.main,
-                            width:'300px',
-                            fontSize: '24px',
-                            padding:'8px',
-                            border: `1px solid ${theme.palette.primary.main}`,
-                            '&:hover':{
-                                backgroundColor: theme.palette.primary.main,
-                                color: theme.palette.secondary.light,
-                            }
-                        }}
-                        onClick={handleOpenModal}
-                    >
-                        Book Seat
-                    </Button>
+                    <Link href={'/tours/123/checkout'}>
+                        <Button 
+                            sx={{
+                                color: theme.palette.primary.main,
+                                width:'300px',
+                                fontSize: '24px',
+                                padding:'8px',
+                                border: `1px solid ${theme.palette.primary.main}`,
+                                '&:hover':{
+                                    backgroundColor: theme.palette.primary.main,
+                                    color: theme.palette.secondary.light,
+                                }
+                            }}
+                        >
+                            Book Seat
+                        </Button>
+                    </Link>
                 </Box>
             </Container>
             <BookSeatsModal open={openModal} handleClose={handleCloseModal} />
