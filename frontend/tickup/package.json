@@ -22,6 +22,7 @@
     "react-dom": "18.2.0",
     "react-icons": "^4.4.0",
     "react-material-ui-carousel": "^3.4.2",
+    "react-spinners": "^0.13.4",
     "yup": "^0.32.11"
   },
   "devDependencies": {

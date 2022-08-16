@@ -95,16 +95,16 @@ export default function Tours() {
                                 <Box width={'100%'} marginTop={'28px'}>
                                     <Grid container spacing={2}>
                                         <Grid item xs={12} md={6} lg={4}>
-                                            <TourCard />
+                                            <TourCard state={'scheduled'} mode={'customer'} />
                                         </Grid>
                                         <Grid item xs={12} md={6} lg={4}>
-                                            <TourCard />
+                                            <TourCard state={'scheduled'} mode={'customer'} />
                                         </Grid>
                                         <Grid item xs={12} md={6} lg={4}>
-                                            <TourCard />
+                                            <TourCard state={'scheduled'} mode={'customer'} />
                                         </Grid>
                                         <Grid item xs={12} md={6} lg={4}>
-                                            <TourCard />
+                                            <TourCard state={'scheduled'} mode={'customer'} />
                                         </Grid>
                                     </Grid>
                                 </Box>

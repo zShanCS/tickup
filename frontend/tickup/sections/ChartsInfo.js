@@ -41,12 +41,12 @@ const toursData = {
 function ChartsInfo() {
     const theme = useTheme()
     const pieChartData = {
-        labels: Object.keys(toursData),
+        labels: Object.keys(toursData).filter((key) => key!=='planned'),
         datasets: [
             {
                 label: 'Tours',
-                data: Object.values(toursData).map(({ count }) => count),
-                backgroundColor: Object.values(toursData).map(({ color }) => color),
+                data: Object.keys(toursData).filter((key) => key!=='planned').map((key) => toursData[key].count),
+                backgroundColor: Object.keys(toursData).filter((key) => key!=='planned').map((key) => toursData[key].color),
                 borderWidth: 1,
             }
         ]
@@ -57,6 +57,14 @@ function ChartsInfo() {
             width={'100%'}
             marginY={'18px'}
         >
+            <Typography
+                component={'h2'}
+                color={theme.palette.primary.main}
+                fontSize={'28px'}
+                fontWeight={'600'}
+            >
+                TripCo's Dashboard
+            </Typography>
             <Grid container spacing={2} alignItems={'center'}>
                 <Grid item xs={12} md={6} lg={8}>
                     <Box
@@ -67,7 +75,7 @@ function ChartsInfo() {
                         justifyContent={'center'}
                         // backgroundColor="yellow"
                     >
-                        {Object.keys(toursData).filter((key) => key!=='planned').map((key, index) => (
+                        {Object.keys(toursData).map((key, index) => (
                             <Box
                                 key={index}
                                 backgroundColor={theme.palette.secondary.light}

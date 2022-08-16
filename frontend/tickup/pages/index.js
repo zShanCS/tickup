@@ -5,6 +5,7 @@ import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 import TourCard from '../components/TourCard'
+import PageLoader from '../sections/PageLoader'
 
 
 
@@ -19,7 +20,8 @@ export default function Home() {
             width={'100%'}
             marginY={'28px'}
         >
-            <Container maxWidth="xl">
+            <PageLoader />
+            {/* <Container maxWidth="xl">
                 <Box
                     width={'100%'}
                 >
@@ -116,7 +118,7 @@ export default function Home() {
                     </Grid>
                     
                 </Box>
-            </Container>
+            </Container> */}
         </Box>
     )
 }

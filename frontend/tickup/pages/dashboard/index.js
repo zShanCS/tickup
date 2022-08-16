@@ -1,6 +1,10 @@
-import { Box, Container, Typography, useTheme } from '@mui/material'
+import { Box, Container, Divider, Typography, useTheme } from '@mui/material'
 import React from 'react'
 import ChartsInfo from '../../sections/ChartsInfo'
+import SellerCancelled from '../../sections/SellerCancelled'
+import SellerCompleted from '../../sections/SellerCompleted'
+import SellerInProgress from '../../sections/SellerInProgress'
+import SellerScheduled from '../../sections/SellerScheduled'
 
 function dashboard() {
     const theme = useTheme()
@@ -10,15 +14,17 @@ function dashboard() {
             paddingY={'36px'}
         >
             <Container>
-                <Typography
-                    component={'h2'}
-                    color={theme.palette.primary.main}
-                    fontSize={'28px'}
-                    fontWeight={'600'}
-                >
-                    TripCo's Dashboard
-                </Typography>
+                
                 <ChartsInfo />
+                <Divider />
+                <SellerScheduled />
+                <Divider />
+                <SellerInProgress />
+                <Divider />
+                <SellerCompleted />
+                <Divider />
+                <SellerCancelled />
+                
             </Container>
         </Box>
     )
