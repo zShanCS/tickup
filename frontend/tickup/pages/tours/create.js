@@ -1,11 +1,13 @@
 import React, {useState} from 'react'
 import { Box, Container, Step, Stepper, StepLabel, StepButton, Typography, useTheme, Button} from '@mui/material'
 import AddMainDetailsForm from '../../sections/AddMainDetailsForm';
+import AddPackagesForm from '../../sections/AddPackagesForm';
+import AddImages from '../../sections/AddImages';
 
 
 const steps = [
     'Fill out Major Details of Tour',
-    'Add Different Packages',
+    'Add A Package',
     'Add Pictures'
 ]
 
@@ -23,6 +25,10 @@ function CreateTour() {
     const completedSteps = () => {
         return Object.keys(completed).length;
     };
+
+    const checkLastToFill = () => {
+        return (completedSteps() === totalSteps() - 1)
+    }
     
     const isLastStep = () => {
         return activeStep === totalSteps() - 1;
@@ -112,29 +118,31 @@ function CreateTour() {
                                     width={'100%'}
                                     marginTop={'18px'}
                                 >
-                                    {activeStep === 0 && <AddMainDetailsForm />}
-                                    <Box
-                                        display={'flex'}
-                                        alignItems={'center'}
-                                        justifyContent={'space-between'}
-                                    >
-                                        <Button 
-                                            variant={'outlined'}
-                                            disabled={activeStep === 0}
-                                            onClick={handleBack}
-                                        >
-                                            Back
-                                        </Button>
-                                        <Button 
-                                            variant={'outlined'}
-                                            // disabled={activeStep === 2}
-                                            onClick={handleComplete}
-                                        >
-                                            {completedSteps() === totalSteps() - 1
-                                                ? 'Finish'
-                                                : 'Next'}
-                                        </Button>
-                                    </Box>
+                                    {activeStep === 0 && 
+                                        <AddMainDetailsForm 
+                                            handleBack={handleBack} 
+                                            handleComplete={handleComplete} 
+                                            activeStep={activeStep}
+                                            checkLastToFill={checkLastToFill}
+                                        />
+                                    }
+                                    {activeStep === 1 &&
+                                        <AddPackagesForm
+                                            handleBack={handleBack} 
+                                            handleComplete={handleComplete} 
+                                            activeStep={activeStep}
+                                            checkLastToFill={checkLastToFill}
+                                        />
+                                    }
+                                    {activeStep === 2 &&
+                                        <AddImages
+                                            handleBack={handleBack} 
+                                            handleComplete={handleComplete} 
+                                            activeStep={activeStep}
+                                            checkLastToFill={checkLastToFill}
+                                        />
+                                    }
+                                    
                                 </Box>
                             </Box>
                         )}

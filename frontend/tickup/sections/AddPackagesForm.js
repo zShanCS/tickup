@@ -1,47 +1,31 @@
 import React from 'react'
 import {Box, TextField, Grid, Button} from '@mui/material'
 
-function AddMainDetailsForm(props) {
+function AddPackagesForm(props) {
     const {handleBack, handleComplete, activeStep, checkLastToFill} = props
     return (
         <Box>
             <TextField 
                 variant={'filled'} 
                 type={'text'} 
-                label={'Title'} 
+                label={'Name'} 
                 fullWidth 
-                placeholder='Title for your Tour...'
+                placeholder='Name of Your Package...'
                 InputLabelProps={{
                     shrink: true                                              
                 }} 
             />
-            <Grid container spacing={'8px'} sx={{marginTop:'1px'}}>
-                <Grid item xs={12} md={6}>
-                    <TextField 
-                        variant={'filled'} 
-                        type={'number'} 
-                        // sx={{marginTop: '8px'}}
-                        label={'Days'} 
-                        placeholder='Number of Days'
-                        fullWidth
-                        InputLabelProps={{
-                            shrink: true                                              
-                        }} 
-                    />
-                </Grid>
-                <Grid item xs={12} md={6}>
-                    <TextField 
-                        variant={'filled'} 
-                        type={'date'} l
-                        label={'Departure'} 
-                        fullWidth
-                        InputLabelProps={{
-                            shrink: true                                              
-                        }}
-                        // sx={{marginTop:'8px'}} 
-                    />
-                </Grid>
-            </Grid>
+            <TextField 
+                variant={'filled'} 
+                type={'number'} 
+                label={'Seats'} 
+                fullWidth
+                sx={{marginTop:'8px'}} 
+                InputLabelProps={{
+                    shrink: true                                              
+                }} 
+                placeholder={'Number of Seats'}
+            />
             <TextField 
                 variant={'filled'} 
                 type={'text'} 
@@ -82,4 +66,4 @@ function AddMainDetailsForm(props) {
     )
 }
 
-export default AddMainDetailsForm
+export default AddPackagesForm
