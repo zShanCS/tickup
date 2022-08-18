@@ -1,15 +1,11 @@
 import { Box, FormControl, FormControlLabel, Radio, RadioGroup, Container, FormLabel, Grid, useMediaQuery, useTheme, IconButton, Hidden, Grow, Button, Typography } from '@mui/material'
 import {MdFilterList} from 'react-icons/md'
 import { useState } from 'react'
-import Head from 'next/head'
-import Image from 'next/image'
-import styles from '../styles/Home.module.css'
-import TourCard from '../components/TourCard'
-import PageLoader from '../sections/PageLoader'
+import TourCard from '../../components/TourCard'
 
 
 
-export default function Home() {
+export default function Tours() {
     const theme = useTheme()
     const isSmall = useMediaQuery(theme.breakpoints.down('sm'))
     const isMed = useMediaQuery(theme.breakpoints.down('md'))
@@ -20,8 +16,7 @@ export default function Home() {
             width={'100%'}
             marginY={'28px'}
         >
-            <PageLoader />
-            {/* <Container maxWidth="xl">
+            <Container maxWidth="xl">
                 <Box
                     width={'100%'}
                 >
@@ -100,16 +95,16 @@ export default function Home() {
                                 <Box width={'100%'} marginTop={'28px'}>
                                     <Grid container spacing={2}>
                                         <Grid item xs={12} md={6} lg={4}>
-                                            <TourCard />
+                                            <TourCard state={'scheduled'} mode={'customer'} />
                                         </Grid>
                                         <Grid item xs={12} md={6} lg={4}>
-                                            <TourCard />
+                                            <TourCard state={'scheduled'} mode={'customer'} />
                                         </Grid>
                                         <Grid item xs={12} md={6} lg={4}>
-                                            <TourCard />
+                                            <TourCard state={'scheduled'} mode={'customer'} />
                                         </Grid>
                                         <Grid item xs={12} md={6} lg={4}>
-                                            <TourCard />
+                                            <TourCard state={'scheduled'} mode={'customer'} />
                                         </Grid>
                                     </Grid>
                                 </Box>
@@ -118,7 +113,7 @@ export default function Home() {
                     </Grid>
                     
                 </Box>
-            </Container> */}
+            </Container>
         </Box>
     )
 }
