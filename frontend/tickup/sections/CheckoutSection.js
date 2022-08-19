@@ -1,18 +1,37 @@
 import { Box, FormLabel, RadioGroup, FormControlLabel, Typography, useTheme, Radio, FormControl, TextField, Button } from '@mui/material'
 import React, {useState} from 'react'
 import { backendServer } from '../config'
+import Swal from 'sweetalert2'
+import {useRouter} from 'next/router'
+import redirect from 'nextjs-redirect'
 
 function CheckoutSection(props) {
     const theme = useTheme()
     const {price, id} = props
     const [seatsSelected, setSeatsSelected] = useState(0)
+    const router = useRouter()
     const createCheckout = async () => {
+        // console.log({'seatsSelected': seatsSelected})
+        // window.open('https://upmostly.com/nextjs/how-to-link-to-an-external-page-in-nextjs', '_blank')
         fetch(`${backendServer}/create_checkout?item_id=${id}&quantity=${seatsSelected}`,{
             method: 'GET',
             mode:'cors',
         })
         .then(response => response.json())
-        .then(data => console.log({Data: data}))
+        .then((data) => {
+            if(data.detail){
+                console.log({Error: data.detail})
+                Swal.fire({
+                    title:' Sorry',
+                    text: data.detail,
+                    icon: 'error',
+                    confirmButtonText: 'OK'
+                })
+            } else {
+                console.log({Data: data})
+                window.open(data.checkout_url, '_blank')
+            }
+        })
     }
     return (
         <Box
@@ -74,7 +93,7 @@ function CheckoutSection(props) {
                 >
                     <Typography>TOTAL PRICE</Typography>
                     <Typography color={theme.palette.primary.main} fontWeight={600}>{seatsSelected} X Seats</Typography>
-                    <Typography color={theme.palette.primary.main} fontWeight={600}>Deluxe</Typography>
+                    {/* <Typography color={theme.palette.primary.main} fontWeight={600}>Deluxe</Typography> */}
                     <Typography 
                         component={'h3'}
                         color={theme.palette.primary.main}

@@ -5,6 +5,7 @@ import Layout from '../layout'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import PageLoader from '../sections/PageLoader'
+import 'sweetalert2/src/sweetalert2.scss'
 
 function MyApp({ Component, pageProps }) {
     const router = useRouter()
