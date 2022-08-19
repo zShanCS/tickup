@@ -17,6 +17,8 @@ uvicorn main:app --reload
 ```
 --reload flag is only for development.
 
+Now go to the url given as output of above command and move to '/docs'
+ to see the full power of Tickup
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
