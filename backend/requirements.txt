@@ -1,0 +1,6 @@
+fastapi
+uvicorn[standard]
+squareup
+sqlalchemy
+python-multipart
+Pillow

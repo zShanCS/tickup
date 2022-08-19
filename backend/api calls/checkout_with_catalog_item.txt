@@ -1,0 +1,18 @@
+result = client.checkout.create_payment_link(
+  body = {
+    "order": {
+      "location_id": "LYMPDPS91JZQ2",
+      "line_items": [
+        {
+          "quantity": "2",
+          "catalog_object_id": "D7YT3YS77JPUVHHAIHFD2JLP"
+        }
+      ]
+    }
+  }
+)
+
+if result.is_success():
+  print(result.body)
+elif result.is_error():
+  print(result.errors)
