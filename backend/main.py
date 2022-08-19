@@ -3,6 +3,7 @@ from square.client import Client
 import os
 import uuid
 from typing import List
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi import Depends, FastAPI, HTTPException, Form, UploadFile
 from sqlalchemy.orm import Session
 from PIL import Image
@@ -14,6 +15,19 @@ models.Base.metadata.create_all(bind=engine)
 from utils import create_checkout_link
 
 app = FastAPI()
+origins = [
+    "*",
+    "http://localhost:3000",
+    "http://localhost:8000",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 BASE_URL = 'http://127.0.0.1:8000/'
 
