@@ -1,6 +1,6 @@
 # Tickup Backend API
 
-Foobar is a FastAPI Backend to support Tickup, an awesome solution for trips and travel
+Tickup is a FastAPI Backend to support Tickup, an awesome solution for trips and travel
 
 ## Installation
 
