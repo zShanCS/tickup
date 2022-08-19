@@ -4,10 +4,11 @@ import React from 'react'
 import Tour1 from '../public/images/tour1.jpg'
 import Link from 'next/link'
 import Person1 from '../public/images/person1.jpg'
+import { backendServer } from '../config'
 
 function TourCard(props) {
     const theme = useTheme()
-    const {mode, state} = props
+    const {mode, state, title, price, seats, image, id} = props
     return (
         <Box
             width={'100%'}
@@ -35,7 +36,7 @@ function TourCard(props) {
                     borderRadius={'50%'}
                     overflow={'hidden'}
                 >
-                    <Image src={Person1} layout={'fill'} objectFit={'cover'} />
+                    <Image src={`${backendServer}/images/${image}`} layout={'fill'} objectFit={'cover'} />
                 </Box>
                 <Box display={'flex'} marginLeft={'8px'}>
                     <Typography><em>By </em></Typography>
@@ -49,10 +50,10 @@ function TourCard(props) {
                 borderRadius={'8px'}
                 overflow={'hidden'}
             >
-                <Image src={Tour1} layout={'fill'} objectFit={'cover'} />
+                <Image src={`${backendServer}/images/${image}`} layout={'fill'} objectFit={'cover'} />
             </Box>
             <Box>
-                <Link href={mode==='customer'?'/tours/123':'/tours/123/edit'}>
+                <Link href={mode==='customer'?`/tours/${id}`:`/tours/${id}/edit`}>
                     <Typography 
                         component={'h3'}
                         fontSize={'16px'}
@@ -62,7 +63,7 @@ function TourCard(props) {
                         color={theme.palette.primary.main}
                         marginTop={'12px'}
                     >
-                        5 Days Tour to Kashmir (Arang Kel and Taobat)
+                        {title}
                     </Typography>
                 </Link>
                 <Box
@@ -101,17 +102,17 @@ function TourCard(props) {
                     justifyContent={'space-between'}
                     alignItems={'center'}
                 >
-                    <Typography>Rs 20,000</Typography>
+                    <Typography>Rs {price}</Typography>
                     {state === 'scheduled' &&
                         (
                             mode === 'customer' ? (
-                                <Link href={'/tours/123/checkout'}>
+                                <Link href={`/tours/${id}`}>
                                     <Button variant={'contained'} color={'primary'}>
                                         Book Seat
                                     </Button>
                                 </Link>
                             ):(
-                                <Link href={'/tours/123/edit'}>
+                                <Link href={`/tours/${id}/edit`}>
                                     <Button variant={'contained'} color={'primary'}>
                                         Edit
                                     </Button>

@@ -14,6 +14,7 @@ import OffRoadIcon from '../public/images/icons/jeep.png'
 import Image from 'next/image';
 import Link from 'next/link'
 import React from 'react'
+import { backendServer } from '../config'
 
 const tourPics = [Tour1, Tour2, Tour3, Tour4]
 const servicesProvided = [
@@ -51,7 +52,8 @@ const packages = [
 ]
 
 
-function TourDetails() {
+function TourDetails(props) {
+    const {title, id, image, seats, price} = props
     const theme = useTheme()
     const isSmall = useMediaQuery(theme.breakpoints.down('sm'))
     const isMed = useMediaQuery(theme.breakpoints.down('md'))
@@ -68,7 +70,9 @@ function TourDetails() {
                     fontSize={'28px'}
                     fontWeight={'600'}
                     lineHeight={'32px'}
-                >5 Days Kashmir Tour (Arangkel and Taobatt)</Typography>
+                >
+                    {title}
+                </Typography>
                 <Box
                     display={'flex'}
                     alignItems={'center'}
@@ -122,7 +126,20 @@ function TourDetails() {
                         maxWidth={'80%'}
                         // backgroundColor={theme.palette.secondary.light}
                     >
-                        <Carousel 
+                        <Box
+                            width={'100%'}
+                        >
+                            <Box
+                                width={'100%'}
+                                height={isMed?(isSmall?'360px':'420px'):'480px'}
+                                position={'relative'}
+                                borderRadius={'8px'}
+                                overflow={'hidden'}
+                            >
+                                <Image src={`${backendServer}/images/${image}`} layout={'fill'} objectFit={'cover'} />
+                            </Box>
+                        </Box>
+                        {/* <Carousel 
                             show={1} 
                             slide={1} 
                             swiping={true} 
@@ -154,7 +171,7 @@ function TourDetails() {
                                     </Box>
                                 </Box>
                             ))}
-                        </Carousel>
+                        </Carousel> */}
                     </Box>
                 </Box>
                 <Box
@@ -190,6 +207,32 @@ function TourDetails() {
             </Box>
             <Divider />
             <Box
+                marginY={'18px'}
+                width={'100%'}
+                display={'flex'}
+                justifyContent={'center'}
+                alignItems={'center'}
+                flexDirection={'column'}
+            >
+                <Typography fontSize={'28px'} fontWeight={500}>Total Seats Availabe: {seats}</Typography>
+                <Box
+                    padding={'8px'}
+                    borderRadius={'8px'}
+                    backgroundColor={theme.palette.primary.main}
+                    textAlign={'center'}
+                >
+                    <Typography color={theme.palette.secondary.light} mb={'8px'}>PRICE PER SEAT</Typography>
+                    <Typography
+                        color={'white'}
+                        fontSize={'36px'}
+                        lineHeight={'36px'}
+                        fontWeight={'600'}
+                    >
+                        Rs. {price}
+                    </Typography>
+                </Box>
+            </Box>
+            {/* <Box
                 paddingY={'18px'}
                 display={'flex'}
                 justifyContent={'center'}
@@ -236,7 +279,7 @@ function TourDetails() {
                         </Typography>
                     </Box>
                 ))}
-            </Box>
+            </Box> */}
             <Divider />
             <Box
                 paddingY={'18px'}

@@ -1,16 +1,21 @@
 import { Box, FormControl, FormControlLabel, Radio, RadioGroup, Container, FormLabel, Grid, useMediaQuery, useTheme, IconButton, Hidden, Grow, Button, Typography } from '@mui/material'
 import {MdFilterList} from 'react-icons/md'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import TourCard from '../../components/TourCard'
+import { backendServer } from '../../config'
 
 
 
-export default function Tours() {
+export default function Tours(props) {
+    const {toursData, pageError} = props
     const theme = useTheme()
     const isSmall = useMediaQuery(theme.breakpoints.down('sm'))
     const isMed = useMediaQuery(theme.breakpoints.down('md'))
     const [showFilter, setShowFilter] = useState(false)
     const toggleFilterSection  = () => { setShowFilter(!showFilter) }
+    useEffect(() => {
+        console.log({'Props in Tours': props})
+    }, [])
     return (
         <Box
             width={'100%'}
@@ -94,18 +99,19 @@ export default function Tours() {
                                 >Search the Best for You</Typography>
                                 <Box width={'100%'} marginTop={'28px'}>
                                     <Grid container spacing={2}>
-                                        <Grid item xs={12} md={6} lg={4}>
-                                            <TourCard state={'scheduled'} mode={'customer'} />
-                                        </Grid>
-                                        <Grid item xs={12} md={6} lg={4}>
-                                            <TourCard state={'scheduled'} mode={'customer'} />
-                                        </Grid>
-                                        <Grid item xs={12} md={6} lg={4}>
-                                            <TourCard state={'scheduled'} mode={'customer'} />
-                                        </Grid>
-                                        <Grid item xs={12} md={6} lg={4}>
-                                            <TourCard state={'scheduled'} mode={'customer'} />
-                                        </Grid>
+                                        {toursData.map((item, index) => (
+                                            <Grid item xs={12} md={6} lg={4} key={ `tour-${index}`}>
+                                                <TourCard 
+                                                    state={'scheduled'} 
+                                                    mode={'customer'} 
+                                                    title={item.title}
+                                                    price={item.price}
+                                                    seats={item.stock}
+                                                    id={item.id}
+                                                    image={item.image}
+                                                />
+                                            </Grid>
+                                        ))}
                                     </Grid>
                                 </Box>
                             </Box>
@@ -116,4 +122,23 @@ export default function Tours() {
             </Container>
         </Box>
     )
+}
+
+export const getServerSideProps = async () => {
+    
+    try {
+        const res = await fetch(`${backendServer}/items`)
+        const data = await res.json()
+        return {
+            props: {
+                toursData: data
+            }
+        } 
+    } catch (error) {
+        return {
+            props: {
+                pageError: error.message
+            }
+        }
+    }
 }
