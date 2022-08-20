@@ -1,2 +1,2 @@
 .env
-*.db
+sql_app.db

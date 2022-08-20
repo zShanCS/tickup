@@ -1,4 +1,5 @@
 from enum import unique
+from locale import currency
 from sqlalchemy import Boolean, Column, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship
 
@@ -11,10 +12,12 @@ class User(Base):
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String)
     profile_image = Column(String)
-    email = Column(String, unique=True, index=True)
+    merchant_id = Column(String)
+    email = Column(String)
     password = Column(String)
     is_active = Column(Boolean, default=True)
     access_key = Column(String)
+    currency = Column(String)
     location_id = Column(String)
     items = relationship("Item", back_populates="owner")
     cover_picture = Column(String)
@@ -41,7 +44,7 @@ class Checkout(Base):
     
     id = Column(Integer, primary_key=True, index=True)
 
-    item_id = Column(Integer, ForeignKey("items.id"))
+    item_id = Column(Integer)
     quantity = Column(Integer)
 
     checkout_id = Column(String, index=True)
