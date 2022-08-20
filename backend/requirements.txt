@@ -5,3 +5,4 @@ sqlalchemy
 python-multipart
 Pillow
 alembic
+python-dotenv

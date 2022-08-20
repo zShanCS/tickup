@@ -11,7 +11,9 @@ import crud, models, schemas
 from database import SessionLocal, engine
 from fastapi.staticfiles import StaticFiles
 
-
+from dotenv import load_dotenv
+load_dotenv() 
+print(os.environ['OWN_ID'])
 
 models.Base.metadata.create_all(bind=engine)
 
@@ -173,5 +175,11 @@ def ticket_bought(checkoutId:str, transactionId:str, db: Session = Depends(get_d
     db.commit()
     db.refresh(db_checkout)
     return {'message':"thank you for buying from us", 'checkout': checkoutId, 'transaction':transactionId}
+
+
+@app.get('/oauth-redirect')
+def redirect(code:str, response_type:str, state:str):
+    
+    return 'authe success'
 
 app.mount("/images", StaticFiles(directory="images"), name="static_images")
