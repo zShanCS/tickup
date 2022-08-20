@@ -1,17 +1,31 @@
 import React from 'react'
-import {Box, Button, Hidden, IconButton, Typography, useMediaQuery, useTheme} from '@mui/material'
+import {Avatar, Box, Button, Hidden, IconButton, Menu, MenuItem, Typography, useMediaQuery, useTheme} from '@mui/material'
 import { useRouter } from "next/router"
 import Logo from '../public/images/logos/logo-dark.png'
 import Image from 'next/image'
 import Link from 'next/link'
 import {MdMenu} from 'react-icons/md'
+import Person1 from '../public/images/person1.jpg'
+import { deleteCookie } from 'cookies-next'
 
 function Topbar(props) {
-    const {handleOpenSidebar} = props
+    const {handleOpenSidebar, userData} = props
     const theme = useTheme()
     const router = useRouter()
     const isMed = useMediaQuery(theme.breakpoints.down('md'))
     const isSmall = useMediaQuery(theme.breakpoints.down('sm'))
+    const [anchorEl, setAnchorEl] = React.useState(null);
+    const open = Boolean(anchorEl);
+    const handleClick = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
+    const handleLogOut = () => {
+        console.log("LOGOUT")
+        deleteCookie('User', { path: '/login', domain: 'http://localhost:3000' });
+    }
     return (
         <Box
             width={'100%'}
@@ -80,23 +94,64 @@ function Topbar(props) {
                                 </Link>
                             )}
                         </Box>
-                        <Link href={'/login'}>
-                            <Button
-                                variant={'outlined'}
-                                sx={{
-                                    backgroundColor: 'transparent',
-                                    color: theme.palette.primary.main,
-                                    borderColor: theme.palette.primary.main,
-                                    '&:hover':{
-                                        backgroundColor: theme.palette.primary.main,
-                                        color: 'white',
-                                    },
-                                    textTransform: 'capitalize'
-                                }}
-                            >
-                                Log In
-                            </Button>
-                        </Link>
+                        {userData?(
+                            <Box>
+                                {/* <IconButton
+                                     onClick={handleClick}
+                                     size="small"
+                                     sx={{ ml: 2 }}
+                                     aria-controls={open ? 'account-menu' : undefined}
+                                     aria-haspopup="true"
+                                     aria-expanded={open ? 'true' : undefined}
+                                >
+                                    National Icon
+                                </IconButton> */}
+                                {/* <Box
+                                    position={'relative'}
+                                    width={'40px'}
+                                    height={'40px'}
+                                    borderRadius={'50%'}
+                                    overflow={'hidden'}
+                                    onClick={handleClick}
+                                    aria-controls={open ? 'account-menu' : undefined}
+                                    aria-haspopup="true"
+                                    aria-expanded={open ? 'true' : undefined}
+                                    sx={{cursor: 'pointer'}}
+                                >
+                                    <Image src={Person1} layout={'fill'} objectFit={'cover'} />
+                                </Box>
+                                <Menu
+                                    anchorEl={anchorEl}
+                                    id="account-menu"
+                                    open={open}
+                                    onClose={handleClose}
+                                    onClick={handleClose}
+                                    transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+                                    anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+                                >
+                                    <MenuItem onClick={handleLogOut}>Log Out</MenuItem>
+                                </Menu> */}
+                                <Typography>NFC</Typography>
+                            </Box>
+                        ):(
+                            <Link href={'/login'}>
+                                <Button
+                                    variant={'outlined'}
+                                    sx={{
+                                        backgroundColor: 'transparent',
+                                        color: theme.palette.primary.main,
+                                        borderColor: theme.palette.primary.main,
+                                        '&:hover':{
+                                            backgroundColor: theme.palette.primary.main,
+                                            color: 'white',
+                                        },
+                                        textTransform: 'capitalize'
+                                    }}
+                                >
+                                    Log In
+                                </Button>
+                            </Link>
+                        )}
                     </Box>}
                 </Hidden>
                 <Hidden only={['md','lg','xl']}>

@@ -3,7 +3,8 @@ import { Box, Container, Step, Stepper, StepLabel, StepButton, Typography, useTh
 import AddMainDetailsForm from '../../sections/AddMainDetailsForm';
 import AddPackagesForm from '../../sections/AddPackagesForm';
 import AddImages from '../../sections/AddImages';
-
+import FormData from 'form-data';
+import {backendServer} from '../../config'
 
 const steps = [
     'Fill out Major Details of Tour',
@@ -15,7 +16,7 @@ function CreateTour() {
     const [activeStep, setActiveStep] = useState(0);
     const [skipped, setSkipped] = useState(new Set());
     const [completed, setCompleted] = useState({})
-
+    const formData = new FormData()
     const theme = useTheme()
 
     const totalSteps = () => {
@@ -56,8 +57,9 @@ function CreateTour() {
         setActiveStep(step);
     };
     
-    const handleComplete = () => {
+    const handleComplete = (formObj) => {
         const newCompleted = completed;
+        addToFormData(formObj)
         newCompleted[activeStep] = true;
         setCompleted(newCompleted);
         handleNext();
@@ -68,6 +70,29 @@ function CreateTour() {
         setCompleted({});
     };
 
+    const addToFormData = (formObj) => {
+        for (const attr in formObj){
+            formData.append(attr, formObj[attr])
+        }
+        console.log("NEW ENTRIES")
+        for (const pair of formData.entries()) {
+            console.log(`${pair[0]}, ${pair[1]}`);
+        }
+        // for (const value of formData.values()) {
+        //     console.log(value);
+        // }
+    }
+
+    const handleSave = () => {
+        formData.append('state', 'scheduled')
+        // formData.append('owner_id', 1)
+        fetch(`${backendServer}/users/1/items`,{
+            method: 'POST',
+            body: formData
+        })
+        .then((res) => res.json())
+        .then((data) => console.log({Save:data}))
+    }
     return (
         <Box
             width={'100%'}
@@ -106,6 +131,7 @@ function CreateTour() {
                                     marginTop={'18px'}
                                 >
                                     <Typography>All Steps are completed - Thank You</Typography>
+                                    <Button onClick={handleSave} variant={'outlined'}>Save</Button>
                                     <Button onClick={handleReset}>Reset</Button>
                                 </Box>
                             </Box>
@@ -125,6 +151,7 @@ function CreateTour() {
                                             activeStep={activeStep}
                                             checkLastToFill={checkLastToFill}
                                         />
+                                        // <Typography>FORM</Typography>
                                     }
                                     {activeStep === 1 &&
                                         <AddPackagesForm
