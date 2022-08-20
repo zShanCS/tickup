@@ -11,11 +11,12 @@ import crud, models, schemas
 from database import SessionLocal, engine
 from fastapi.staticfiles import StaticFiles
 
-
+from dotenv import load_dotenv
+load_dotenv() 
 
 models.Base.metadata.create_all(bind=engine)
 
-from utils import create_checkout_link
+from utils import create_checkout_link, obtain_oauth
 
 app = FastAPI()
 origins = [
@@ -127,8 +128,8 @@ def create_checkout(item_id:int, quantity:int, db: Session = Depends(get_db)):
     db_user = crud.get_user(db=db, user_id=db_item.owner_id)
     if not db_user:
         raise HTTPException(status_code=400, detail="ticket owner doesnt exist anymore")
-    result =  create_checkout_link(db_user.access_key, db_user.location_id, db_item.title, str(quantity), db_item.price, BASE_URL+'ticket-bought')
-    
+    result =  create_checkout_link(db_user.access_key, db_user.location_id, db_item.title, str(quantity), db_item.price, redirect_url=BASE_URL+'ticket-bought',currency=db_user.currency,)
+    print(item_id)
     if result.is_success():
         #save transaction
         db_checkout = crud.create_checkout(
@@ -173,5 +174,49 @@ def ticket_bought(checkoutId:str, transactionId:str, db: Session = Depends(get_d
     db.commit()
     db.refresh(db_checkout)
     return {'message':"thank you for buying from us", 'checkout': checkoutId, 'transaction':transactionId}
+
+
+@app.get('/oauth-redirect')
+def redirect(code:str, response_type:str, state:str, db: Session = Depends(get_db)):
+    result = obtain_oauth(
+        os.environ['OWN_ACCESS_TOKEN'], 
+        own_client_id=os.environ['OWN_CLIENT_ID'], 
+        own_secret=os.environ['OWN_SECRET'],
+        code=code
+        )
+    access_token = result.body['access_token']
+    merchant_id = result.body['merchant_id']
+    client = Client(
+        access_token=result.body['access_token'],
+        environment='production'
+        )
+    loc_result = client.locations.list_locations()
+
+    if loc_result.is_success():
+        print(loc_result.body)
+        location_id = loc_result.body['locations'][0]['id']
+        name = loc_result.body['locations'][0]['name']
+        currency = loc_result.body['locations'][0]['currency']
+
+        db_user = models.User(name=name, merchant_id=merchant_id, location_id=location_id, currency=currency, access_key=access_token)
+        db.add(db_user)
+        db.commit()
+        db.refresh(db_user)
+        return db_user
+
+    elif loc_result.is_error():
+        print(loc_result.errors)
+
+    if result.is_success():
+        print(result.body)
+        return result
+    elif result.is_error():
+        return result.errors
+        # print(result.errors)
+    return 'authe success'
+
+@app.get('/oauth-link')
+def oauth_link():
+    return f'https://squareup.com/oauth2/authorize?client_id=sq0idp-FuPiCIjGxeZe7JmFVfq68w&scope=PAYMENTS_WRITE+ORDERS_WRITE+ORDERS_READ+MERCHANT_PROFILE_READ&state=82201dd8d83d23cc8a48caf52b'
 
 app.mount("/images", StaticFiles(directory="images"), name="static_images")

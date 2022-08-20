@@ -28,8 +28,8 @@ class Item(ItemBase):
 
 
 class UserBase(BaseModel):
-    email: str
-    name: str
+    email: Union[str, None] = None
+    name: Union[str, None] = None
 
 class UserCreate(UserBase):
     password: str
