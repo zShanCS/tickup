@@ -9,13 +9,15 @@ class User(Base):
     __tablename__ = "users"
 
     id = Column(Integer, primary_key=True, index=True)
+    name = Column(String)
+    profile_image = Column(String)
     email = Column(String, unique=True, index=True)
     password = Column(String)
     is_active = Column(Boolean, default=True)
     access_key = Column(String)
     location_id = Column(String)
     items = relationship("Item", back_populates="owner")
-
+    cover_picture = Column(String)
 
 class Item(Base):
     __tablename__ = "items"
@@ -24,7 +26,10 @@ class Item(Base):
     title = Column(String, index=True)
     description = Column(String, index=True)
     owner_id = Column(Integer, ForeignKey("users.id"))
-
+    days = Column(Integer)
+    state = Column(String)
+    departure_date = Column(String)
+    total_seats = Column(Integer)
     price = Column(Integer)
     stock = Column(Integer)
     image = Column(String)

@@ -22,3 +22,16 @@ Now go to the url given as output of above command and move to '/docs'
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
+# Migrations
+
+We use Alembic migrations. 
+
+Install requirements by pip.
+
+on cmd, run 
+```bash
+alembic revision --autogenerate -m "whats happening in the migration e.g. 'added profile picture column'"
+
+alembic upgrade head
+```
+

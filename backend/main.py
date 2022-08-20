@@ -10,6 +10,9 @@ from PIL import Image
 import crud, models, schemas
 from database import SessionLocal, engine
 from fastapi.staticfiles import StaticFiles
+
+
+
 models.Base.metadata.create_all(bind=engine)
 
 from utils import create_checkout_link
@@ -65,7 +68,15 @@ def read_user(user_id: int, db: Session = Depends(get_db)):
 
 @app.post("/users/{user_id}/items/", response_model=schemas.Item )
 def create_item_for_user(
-    user_id: int,file: UploadFile, title:str = Form(...), description: str = Form(...), price:int = Form(...), stock:int = Form(...),   db: Session = Depends(get_db)
+    user_id: int,
+    file: UploadFile,
+    title:str = Form(...), 
+    description: str = Form(...), 
+    price:int = Form(...),
+    total_seats:int = Form(...),
+    departure_date:str = Form('31-12-2022T23:59'),
+    days:int = Form(3),
+    db: Session = Depends(get_db)
 ):
     print(file, file.filename)
     try:
@@ -78,12 +89,16 @@ def create_item_for_user(
     item =  schemas.ItemCreate(
         title=title,
         description=description,
-        stock= stock,
+        stock= total_seats,
+        total_seats=total_seats,
         price=price,
-        image=file.filename
+        image=file.filename,
+        departure_date=departure_date,
+        days=days,
+        state='Scheduled'
     )
     item = crud.create_user_item(db=db, item=item, user_id=user_id)
-    im.save(f'images/{file.filename}')
+    im.save(f'images/{item.id}-{file.filename}')
     return item
 
 
