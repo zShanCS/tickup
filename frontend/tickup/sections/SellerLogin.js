@@ -1,17 +1,41 @@
 import React from 'react'
-import { useTheme, Box, Typography, Button } from '@mui/material'
+import { useTheme, Box, Typography, Button, Divider } from '@mui/material'
 import Link from 'next/link'
 import SquareLogo from '../public/images/square-logo.png'
 import Image from 'next/image'
+import {backendServer} from '../config'
+import {setCookies} from 'cookies-next'
+import {useRouter} from 'next/router'
+// import nookies from 'nookies'
+// import { parseCookies, setCookie, destroyCookie } from 'nookies'
 
 function SellerLogin(props) {
     const theme = useTheme()
     const {changeLoginMode} = props
+    const router = useRouter()
     const updateLoginMode = () => {
         changeLoginMode(1)
     }
     const loginSeller = () => {
         console.log("LOGIN SELLER")
+    }
+    const loginDemoSeller = async (userId) => {
+        try {
+            await fetch(`${backendServer}/users/${userId}`, {
+                method: 'GET',
+                mode:'cors',
+            })
+                .then((res) => res.json())
+                .then((data) => {
+                    console.log({'USER DATA': data})
+                    localStorage.setItem('User', JSON.stringify(data))
+                    router.push(`seller/${data.id}/dashboard`)
+                    // router.reload()
+                })
+        } catch (error) {
+            console.log(error)
+            localStorage.setItem('User', JSON.stringify(error))
+        }
     }
     return (
         <Box
@@ -33,33 +57,57 @@ function SellerLogin(props) {
                 >
                     Login As Seller
                 </Typography>
-                <Box
-                    marginTop={'12px'}
-                    border={`1px solid ${theme.palette.primary.main}`}
-                    borderRadius={'8px'}
-                    padding={'12px'}
-                    display={'flex'}
-                    justifyContent={'center'}
-                    alignItems={'center'}
-                    fontSize={'20px'}
-                    sx={{
-                        transition: 'all 0.3s linear',
-                        cursor: 'pointer',
-                        '&:hover':{
-                            backgroundColor: 'white'
-                        }
-                    }}
-                    onClick={loginSeller}
-                >
-                    Login with <Box width={'10px'}></Box>
+                <Link href={'https://squareup.com/oauth2/authorize?client_id=sq0idp-FuPiCIjGxeZe7JmFVfq68w&scope=PAYMENTS_WRITE+ORDERS_WRITE+ORDERS_READ+MERCHANT_PROFILE_READ&state=82201dd8d83d23cc8a48caf52b'} >
                     <Box
-                        width={'100px'}
-                        position={'relative'}
+                        marginY={'12px'}
+                        border={`1px solid ${theme.palette.primary.main}`}
+                        borderRadius={'8px'}
+                        padding={'12px'}
+                        display={'flex'}
+                        justifyContent={'center'}
+                        alignItems={'center'}
+                        fontSize={'20px'}
+                        sx={{
+                            transition: 'all 0.3s linear',
+                            cursor: 'pointer',
+                            '&:hover':{
+                                backgroundColor: 'white'
+                            }
+                        }}
+                        onClick={loginSeller}
                     >
-                        <Image src={SquareLogo} layout={'responsive'} />
-                    </Box> 
-                </Box>
+                        Login with <Box width={'10px'}></Box>
+                        <Box
+                            width={'100px'}
+                            position={'relative'}
+                        >
+                            <Image src={SquareLogo} layout={'responsive'} />
+                        </Box> 
+                    </Box>
+                </Link>
+                <Divider sx={{borderColor: theme.palette.primary.main}} />
                 <Box
+                    marginY={'12px'}
+                >
+                    <Typography>Demo Accounts</Typography>
+                    <Button
+                        variant={'outlined'}
+                        sx={{marginTop: '8px'}}
+                        fullWidth
+                        onClick={() => loginDemoSeller(1)}
+                    >
+                        National Adventure Club
+                    </Button>
+                    <Button
+                        variant={'outlined'}
+                        sx={{marginTop: '8px'}}
+                        fullWidth
+                        onClick={() => loginDemoSeller(2)}
+                    >
+                        Elite Adventure Club
+                    </Button>
+                </Box> 
+                {/* <Box
                     textAlign={'center'}
                     marginTop={'12px'}
                 >
@@ -75,7 +123,7 @@ function SellerLogin(props) {
                     <Button onClick={updateLoginMode}>
                         Are you a Customer?
                     </Button>
-                </Box>
+                </Box> */}
             </Box>
         </Box>
     )

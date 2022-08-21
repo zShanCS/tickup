@@ -17,8 +17,9 @@ const packages = [
     }
 ]
 
-function EditPackages() {
+function EditPackages(props) {
     const [openPackageModal, setOpenPackageModal] = useState(false)
+    const {price, seats} = props
     const theme = useTheme()
     const handleOpenPackageModal = () => {
         setOpenPackageModal(true)
@@ -44,64 +45,40 @@ function EditPackages() {
                         justifyContent={'center'}
                     >
                         
-                        {packages.map((item, index) => (
-                            <Box
-                                width={'300px'}
-                                borderRadius={'8px'}
-                                border={`1px solid ${theme.palette.primary.main}`}
-                                padding={'8px'}
-                                margin={'8px'}
-                                position={'relative'}
-                                sx={{
-                                    '&:hover': {
-                                        backgroundColor: theme.palette.secondary.light
-                                    }
-                                }}
-                                
+                        <Box
+                            width={'300px'}
+                            borderRadius={'8px'}
+                            border={`1px solid ${theme.palette.primary.main}`}
+                            padding={'8px'}
+                            margin={'8px'}
+                            position={'relative'}
+                            sx={{
+                                '&:hover': {
+                                    backgroundColor: theme.palette.secondary.light
+                                }
+                            }}
+                            
+                        >
+                            <Typography 
+                                textAlign={'center'} 
+                                fontWeight={600} 
+                                fontSize={'18px'}
+                                color={theme.palette.primary.main}
+                                textTransform={'uppercase'}
                             >
-                                <IconButton
-                                    sx={{
-                                        position: 'absolute',
-                                        top:0,
-                                        right:0,
-                                        marginTop: '-8px',
-                                        border:`1px solid ${theme.palette.primary.main}`,
-                                        color: theme.palette.primary.main,
-                                        backgroundColor: 'white',
-                                        fontSize: '14px',
-                                        '&:hover':{
-                                            backgroundColor: theme.palette.primary.main,
-                                            color: 'white'
-                                        }
-                                    }}
-                                >
-                                    <FaTrash />
-                                </IconButton>
-                                <Typography 
-                                    textAlign={'center'} 
-                                    fontWeight={600} 
-                                    fontSize={'18px'}
-                                    color={theme.palette.primary.main}
-                                    textTransform={'uppercase'}
-                                >
-                                    {item.name}
-                                </Typography>
-                                <Typography 
-                                    textAlign={'center'} 
-                                    fontWeight={600} 
-                                    fontSize={'28px'}
-                                    color={theme.palette.primary.main}
-                                    textTransform={'uppercase'}
-                                >
-                                    {item.price}
-                                </Typography>
-                                <Typography
-                                    textAlign={'center'}
-                                >
-                                    {item.description}
-                                </Typography>
-                            </Box>
-                        ))}
+                                {seats} Seats
+                            </Typography>
+                            <Typography 
+                                textAlign={'center'} 
+                                fontWeight={600} 
+                                fontSize={'28px'}
+                                color={theme.palette.primary.main}
+                                textTransform={'uppercase'}
+                            >
+                                Rs. {price}
+                            </Typography>
+                            
+                        </Box>
                     </Box>
                 </Grid>
             </Grid>

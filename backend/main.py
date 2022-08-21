@@ -3,17 +3,35 @@ from square.client import Client
 import os
 import uuid
 from typing import List
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi import Depends, FastAPI, HTTPException, Form, UploadFile
 from sqlalchemy.orm import Session
 from PIL import Image
 import crud, models, schemas
 from database import SessionLocal, engine
 from fastapi.staticfiles import StaticFiles
+
+from dotenv import load_dotenv
+load_dotenv() 
+
 models.Base.metadata.create_all(bind=engine)
 
-from utils import create_checkout_link
+from utils import create_checkout_link, obtain_oauth
 
 app = FastAPI()
+origins = [
+    "*",
+    "http://localhost:3000",
+    "http://localhost:8000",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 BASE_URL = 'http://127.0.0.1:8000/'
 
@@ -51,7 +69,15 @@ def read_user(user_id: int, db: Session = Depends(get_db)):
 
 @app.post("/users/{user_id}/items/", response_model=schemas.Item )
 def create_item_for_user(
-    user_id: int,file: UploadFile, title:str = Form(...), description: str = Form(...), price:int = Form(...), stock:int = Form(...),   db: Session = Depends(get_db)
+    user_id: int,
+    file: UploadFile,
+    title:str = Form(...), 
+    description: str = Form(...), 
+    price:int = Form(...),
+    total_seats:int = Form(...),
+    departure_date:str = Form('31-12-2022T23:59'),
+    days:int = Form(3),
+    db: Session = Depends(get_db)
 ):
     print(file, file.filename)
     try:
@@ -64,12 +90,16 @@ def create_item_for_user(
     item =  schemas.ItemCreate(
         title=title,
         description=description,
-        stock= stock,
+        stock= total_seats,
+        total_seats=total_seats,
         price=price,
-        image=file.filename
+        image=file.filename,
+        departure_date=departure_date,
+        days=days,
+        state='Scheduled'
     )
     item = crud.create_user_item(db=db, item=item, user_id=user_id)
-    im.save(f'images/{file.filename}')
+    im.save(f'images/{item.id}-{file.filename}')
     return item
 
 
@@ -98,8 +128,8 @@ def create_checkout(item_id:int, quantity:int, db: Session = Depends(get_db)):
     db_user = crud.get_user(db=db, user_id=db_item.owner_id)
     if not db_user:
         raise HTTPException(status_code=400, detail="ticket owner doesnt exist anymore")
-    result =  create_checkout_link(db_user.access_key, db_user.location_id, db_item.title, str(quantity), db_item.price, BASE_URL+'ticket-bought')
-    
+    result =  create_checkout_link(db_user.access_key, db_user.location_id, db_item.title, str(quantity), db_item.price, redirect_url=BASE_URL+'ticket-bought',currency=db_user.currency,)
+    print(item_id)
     if result.is_success():
         #save transaction
         db_checkout = crud.create_checkout(
@@ -144,5 +174,49 @@ def ticket_bought(checkoutId:str, transactionId:str, db: Session = Depends(get_d
     db.commit()
     db.refresh(db_checkout)
     return {'message':"thank you for buying from us", 'checkout': checkoutId, 'transaction':transactionId}
+
+
+@app.get('/oauth-redirect')
+def redirect(code:str, response_type:str, state:str, db: Session = Depends(get_db)):
+    result = obtain_oauth(
+        os.environ['OWN_ACCESS_TOKEN'], 
+        own_client_id=os.environ['OWN_CLIENT_ID'], 
+        own_secret=os.environ['OWN_SECRET'],
+        code=code
+        )
+    access_token = result.body['access_token']
+    merchant_id = result.body['merchant_id']
+    client = Client(
+        access_token=result.body['access_token'],
+        environment='production'
+        )
+    loc_result = client.locations.list_locations()
+
+    if loc_result.is_success():
+        print(loc_result.body)
+        location_id = loc_result.body['locations'][0]['id']
+        name = loc_result.body['locations'][0]['name']
+        currency = loc_result.body['locations'][0]['currency']
+
+        db_user = models.User(name=name, merchant_id=merchant_id, location_id=location_id, currency=currency, access_key=access_token)
+        db.add(db_user)
+        db.commit()
+        db.refresh(db_user)
+        return db_user
+
+    elif loc_result.is_error():
+        print(loc_result.errors)
+
+    if result.is_success():
+        print(result.body)
+        return result
+    elif result.is_error():
+        return result.errors
+        # print(result.errors)
+    return 'authe success'
+
+@app.get('/oauth-link')
+def oauth_link():
+    return f'https://squareup.com/oauth2/authorize?client_id=sq0idp-FuPiCIjGxeZe7JmFVfq68w&scope=PAYMENTS_WRITE+ORDERS_WRITE+ORDERS_READ+MERCHANT_PROFILE_READ&state=82201dd8d83d23cc8a48caf52b'
 
 app.mount("/images", StaticFiles(directory="images"), name="static_images")

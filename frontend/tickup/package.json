@@ -1,0 +1,40 @@
+{
+    "name": "tickup",
+    "version": "0.1.0",
+    "private": true,
+    "scripts": {
+        "dev": "next dev",
+        "build": "next build",
+        "start": "next start",
+        "lint": "next lint"
+    },
+    "dependencies": {
+        "@emotion/react": "^11.10.0",
+        "@emotion/styled": "^11.10.0",
+        "@mui/lab": "^5.0.0-alpha.94",
+        "@mui/material": "^5.10.0",
+        "@mui/x-date-pickers": "^5.0.0-beta.5",
+        "chart.js": "^3.9.1",
+        "cookies-next": "^2.1.1",
+        "form-data": "^4.0.0",
+        "formik": "^2.2.9",
+        "moment": "^2.29.4",
+        "next": "12.2.5",
+        "nextjs-redirect": "^6.0.1",
+        "nookies": "^2.5.2",
+        "react": "18.2.0",
+        "react-chartjs-2": "^4.3.1",
+        "react-country-region-selector": "^3.6.1",
+        "react-dom": "18.2.0",
+        "react-icons": "^4.4.0",
+        "react-material-ui-carousel": "^3.4.2",
+        "react-spinners": "^0.13.4",
+        "sass": "^1.54.4",
+        "sweetalert2": "^11.4.28",
+        "yup": "^0.32.11"
+    },
+    "devDependencies": {
+        "eslint": "8.21.0",
+        "eslint-config-next": "12.2.5"
+    }
+}
