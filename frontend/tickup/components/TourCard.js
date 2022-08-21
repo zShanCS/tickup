@@ -36,7 +36,7 @@ function TourCard(props) {
                     borderRadius={'50%'}
                     overflow={'hidden'}
                 >
-                    <Image src={`${backendServer}/images/${image}`} layout={'fill'} objectFit={'cover'} />
+                    <Image src={`${backendServer}/images/${id}-${image}`} layout={'fill'} objectFit={'cover'} />
                 </Box>
                 <Box display={'flex'} marginLeft={'8px'}>
                     <Typography><em>By </em></Typography>

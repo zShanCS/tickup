@@ -1,6 +1,8 @@
-import { Box, useTheme, Typography, Grid } from '@mui/material'
+import { Box, useTheme, Typography, Grid, IconButton } from '@mui/material'
 import React, { useEffect } from 'react'
 import TourCard from '../components/TourCard'
+import {FaPlusCircle} from 'react-icons/fa'
+import Link from 'next/link'
 
 function SellerScheduled(props) {
     const theme = useTheme()
@@ -13,15 +15,25 @@ function SellerScheduled(props) {
             width={'100%'}
             marginY={'18px'}
         >
-            <Typography
-                component={'h2'}
-                color={theme.palette.primary.main}
-                fontSize={'28px'}
-                fontWeight={'600'}
-                marginBottom={'18px'}
+            <Box
+                display={'flex'}
+                justifyContent={'space-between'}
             >
-                Upcoming Scheduled
-            </Typography>
+                <Typography
+                    component={'h2'}
+                    color={theme.palette.primary.main}
+                    fontSize={'28px'}
+                    fontWeight={'600'}
+                    marginBottom={'18px'}
+                >
+                    Upcoming Scheduled
+                </Typography>
+                <Link href={'/tours/create'}>
+                    <IconButton>
+                        <FaPlusCircle />
+                    </IconButton>
+                </Link>
+            </Box>
             <Grid container spacing={2}>
                 {tours.map((item, index) => (
                     <Grid item xs={12} md={6} lg={4} key={ `tour-${index}`}>
@@ -36,15 +48,6 @@ function SellerScheduled(props) {
                         />
                     </Grid>
                 ))}
-                {/* <Grid item xs={12} md={6} lg={4}>
-                    <TourCard state={'scheduled'} mode={'seller'} />
-                </Grid>
-                <Grid item xs={12} md={6} lg={4}>
-                    <TourCard state={'scheduled'} mode={'seller'} />
-                </Grid>
-                <Grid item xs={12} md={6} lg={4}>
-                    <TourCard state={'scheduled'} mode={'seller'} />
-                </Grid> */}
             </Grid>
         </Box>
     )

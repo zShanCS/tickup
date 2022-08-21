@@ -29,7 +29,8 @@ function SellerLogin(props) {
                 .then((data) => {
                     console.log({'USER DATA': data})
                     localStorage.setItem('User', JSON.stringify(data))
-                    router.push('/dashboard')
+                    router.push(`seller/${data.id}/dashboard`)
+                    // router.reload()
                 })
         } catch (error) {
             console.log(error)
@@ -56,32 +57,34 @@ function SellerLogin(props) {
                 >
                     Login As Seller
                 </Typography>
-                <Box
-                    marginY={'12px'}
-                    border={`1px solid ${theme.palette.primary.main}`}
-                    borderRadius={'8px'}
-                    padding={'12px'}
-                    display={'flex'}
-                    justifyContent={'center'}
-                    alignItems={'center'}
-                    fontSize={'20px'}
-                    sx={{
-                        transition: 'all 0.3s linear',
-                        cursor: 'pointer',
-                        '&:hover':{
-                            backgroundColor: 'white'
-                        }
-                    }}
-                    onClick={loginSeller}
-                >
-                    Login with <Box width={'10px'}></Box>
+                <Link href={'https://squareup.com/oauth2/authorize?client_id=sq0idp-FuPiCIjGxeZe7JmFVfq68w&scope=PAYMENTS_WRITE+ORDERS_WRITE+ORDERS_READ+MERCHANT_PROFILE_READ&state=82201dd8d83d23cc8a48caf52b'} >
                     <Box
-                        width={'100px'}
-                        position={'relative'}
+                        marginY={'12px'}
+                        border={`1px solid ${theme.palette.primary.main}`}
+                        borderRadius={'8px'}
+                        padding={'12px'}
+                        display={'flex'}
+                        justifyContent={'center'}
+                        alignItems={'center'}
+                        fontSize={'20px'}
+                        sx={{
+                            transition: 'all 0.3s linear',
+                            cursor: 'pointer',
+                            '&:hover':{
+                                backgroundColor: 'white'
+                            }
+                        }}
+                        onClick={loginSeller}
                     >
-                        <Image src={SquareLogo} layout={'responsive'} />
-                    </Box> 
-                </Box>
+                        Login with <Box width={'10px'}></Box>
+                        <Box
+                            width={'100px'}
+                            position={'relative'}
+                        >
+                            <Image src={SquareLogo} layout={'responsive'} />
+                        </Box> 
+                    </Box>
+                </Link>
                 <Divider sx={{borderColor: theme.palette.primary.main}} />
                 <Box
                     marginY={'12px'}
@@ -104,7 +107,7 @@ function SellerLogin(props) {
                         Elite Adventure Club
                     </Button>
                 </Box> 
-                <Box
+                {/* <Box
                     textAlign={'center'}
                     marginTop={'12px'}
                 >
@@ -117,10 +120,10 @@ function SellerLogin(props) {
                             Don't Have an Account? <span className='sign-up-link'>Sign Up</span>
                         </Typography>
                     </Link>
-                    {/* <Button onClick={updateLoginMode}>
+                    <Button onClick={updateLoginMode}>
                         Are you a Customer?
-                    </Button> */}
-                </Box>
+                    </Button>
+                </Box> */}
             </Box>
         </Box>
     )

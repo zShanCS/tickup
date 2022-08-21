@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react'
+
 import Topbar from './Topbar'
 import { Box } from '@mui/material'
 import Sidebar from './Sidebar'
-import {useState} from 'react'
+import {useState, useEffect} from 'react'
 import Footer from './Footer'
 
 function index(props) {
@@ -15,6 +15,10 @@ function index(props) {
     const handleCloseSidebar = () => {
         setIsOpen(false)
     }
+    useEffect(() => {
+        setUserData(JSON.parse(localStorage.getItem('User')))
+    }, [props])
+
     return (
         <>
             <Topbar handleOpenSidebar={handleOpenSidebar} userData={userData} />

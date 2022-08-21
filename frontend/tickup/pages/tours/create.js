@@ -4,7 +4,9 @@ import AddMainDetailsForm from '../../sections/AddMainDetailsForm';
 import AddPackagesForm from '../../sections/AddPackagesForm';
 import AddImages from '../../sections/AddImages';
 import FormData from 'form-data';
+import {useRouter} from 'next/router';
 import {backendServer} from '../../config'
+// import fs from 'fs'
 
 const steps = [
     'Fill out Major Details of Tour',
@@ -16,8 +18,11 @@ function CreateTour() {
     const [activeStep, setActiveStep] = useState(0);
     const [skipped, setSkipped] = useState(new Set());
     const [completed, setCompleted] = useState({})
+    // const [userData, setUserData] = useState(null)
     const formData = new FormData()
+    const [createData, setCreateData] = useState({})
     const theme = useTheme()
+    const router = useRouter()
 
     const totalSteps = () => {
         return steps.length;
@@ -57,9 +62,9 @@ function CreateTour() {
         setActiveStep(step);
     };
     
-    const handleComplete = (formObj) => {
+    const handleComplete = (formObj, type='json') => {
         const newCompleted = completed;
-        addToFormData(formObj)
+        addToFormData(formObj, type)
         newCompleted[activeStep] = true;
         setCompleted(newCompleted);
         handleNext();
@@ -70,28 +75,64 @@ function CreateTour() {
         setCompleted({});
     };
 
-    const addToFormData = (formObj) => {
-        for (const attr in formObj){
-            formData.append(attr, formObj[attr])
+    const addToFormData = (formObj, type='json') => {
+        
+        if(type === 'json'){
+            console.log({FORM: formObj})
+            setCreateData({...createData, ...formObj})
+        } else {
+            console.log("TPE: ", type)
+            const fileFormData = new FormData(formObj)
+            for (const attr in createData){
+                fileFormData.append(attr, createData[attr])
+            }
+            setCreateData(fileFormData)
+            console.log({CREATE: createData})
+            console.log(fileFormData)
+            // for (const pair of fileFormData.entries()) {
+            //     console.log(`${pair[0]}, ${pair[1]}`);
+            // }
         }
-        console.log("NEW ENTRIES")
-        for (const pair of formData.entries()) {
-            console.log(`${pair[0]}, ${pair[1]}`);
-        }
+        
+        console.log({Entries: createData})
+        // console.log("BEFORE NEW ENTRIES")
+        // for (const pair of formData.entries()) {
+        //     console.log(`${pair[0]}, ${pair[1]}`);
+        // }
+        // for (const attr in formObj){
+        //     formData.append(attr, formObj[attr])
+        // }
+        // console.log("NEW ENTRIES")
+        // for (const pair of formData.entries()) {
+        //     console.log(`${pair[0]}, ${pair[1]}`);
+        // }
+
         // for (const value of formData.values()) {
         //     console.log(value);
         // }
     }
 
     const handleSave = () => {
-        formData.append('state', 'scheduled')
+        // formData.append('state', 'scheduled')
         // formData.append('owner_id', 1)
-        fetch(`${backendServer}/users/1/items`,{
+        // for (const attr in createData){
+        //     formData.append(attr, createData[attr])
+        // }
+        // formData.append('type', 'multipart/form-data')
+        // console.log({Entries: createData})
+
+        // for (const pair of createData.entries()) {
+        //     console.log(`${pair[0]}, ${pair[1]}`);
+        // }
+        const userId = JSON.parse(localStorage.getItem('User')).id
+        fetch(`${backendServer}/users/${userId}/items`,{
             method: 'POST',
-            body: formData
+            body: createData
         })
         .then((res) => res.json())
-        .then((data) => console.log({Save:data}))
+        .then((data) => {
+            router.push(`/tours/${data.id}`)
+        })
     }
     return (
         <Box
@@ -130,7 +171,7 @@ function CreateTour() {
                                     width={'100%'}
                                     marginTop={'18px'}
                                 >
-                                    <Typography>All Steps are completed - Thank You</Typography>
+                                    <Typography>Are You Sure you want to post this tour?</Typography>
                                     <Button onClick={handleSave} variant={'outlined'}>Save</Button>
                                     <Button onClick={handleReset}>Reset</Button>
                                 </Box>
@@ -145,30 +186,30 @@ function CreateTour() {
                                     marginTop={'18px'}
                                 >
                                     {activeStep === 0 && 
-                                        <AddMainDetailsForm 
-                                            handleBack={handleBack} 
-                                            handleComplete={handleComplete} 
-                                            activeStep={activeStep}
-                                            checkLastToFill={checkLastToFill}
-                                        />
-                                        // <Typography>FORM</Typography>
-                                    }
-                                    {activeStep === 1 &&
-                                        <AddPackagesForm
-                                            handleBack={handleBack} 
-                                            handleComplete={handleComplete} 
-                                            activeStep={activeStep}
-                                            checkLastToFill={checkLastToFill}
-                                        />
-                                    }
-                                    {activeStep === 2 &&
-                                        <AddImages
-                                            handleBack={handleBack} 
-                                            handleComplete={handleComplete} 
-                                            activeStep={activeStep}
-                                            checkLastToFill={checkLastToFill}
-                                        />
-                                    }
+                                            <AddMainDetailsForm 
+                                                handleBack={handleBack} 
+                                                handleComplete={handleComplete} 
+                                                activeStep={activeStep}
+                                                checkLastToFill={checkLastToFill}
+                                            />
+                                            // <Typography>FORM</Typography>
+                                        }
+                                        {activeStep === 1 &&
+                                            <AddPackagesForm
+                                                handleBack={handleBack} 
+                                                handleComplete={handleComplete} 
+                                                activeStep={activeStep}
+                                                checkLastToFill={checkLastToFill}
+                                            />
+                                        }
+                                        {activeStep === 2 &&
+                                            <AddImages
+                                                handleBack={handleBack} 
+                                                handleComplete={handleComplete} 
+                                                activeStep={activeStep}
+                                                checkLastToFill={checkLastToFill}
+                                            />
+                                        }
                                     
                                 </Box>
                             </Box>

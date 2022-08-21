@@ -78,7 +78,7 @@ function AddMaindescriptionForm(props) {
                             InputLabelProps={{
                                 shrink: true                                              
                             }}
-                            // sx={{marginTop:'8px'}} 
+                            // sx={{marginTop:'8px'}}
                             name={'departure_date'}
                             value={formik.values.departure_date}
                             onChange={formik.handleChange}

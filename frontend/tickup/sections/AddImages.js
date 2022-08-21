@@ -20,16 +20,21 @@ function AddImages(props) {
     const {handleBack, handleComplete, activeStep, checkLastToFill} = props
     const formik = useFormik({
         initialValues: {
-            file: ''
+            file: {}
         },
         validationSchema: validationSchema,
         onSubmit: (values) => {
+            
             handleComplete(values)
         },
     });
     return (
         <Box>
-            <form onSubmit={formik.handleSubmit} >
+            <form onSubmit={(e) => {
+                e.preventDefault()
+                console.log(e.currentTarget)
+                handleComplete(e.currentTarget, 'multipart')
+            }} encType={'multipart/form-data'}>
                 <TextField 
                     variant={'filled'} 
                     type={'file'} 

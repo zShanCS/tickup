@@ -16,7 +16,7 @@ export default function Tours(props) {
     const toggleFilterSection  = () => { setShowFilter(!showFilter) }
     useEffect(() => {
         console.log({'Props in Tours': props})
-    }, [])
+    }, [props])
     return (
         <Box
             width={'100%'}

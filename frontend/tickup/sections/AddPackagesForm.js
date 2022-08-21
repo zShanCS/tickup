@@ -7,7 +7,7 @@ const validationSchema = yup.object({
     price: yup
         .string("Enter Your Tour Prie")
         .required("Price is required"),
-    stock: yup
+    total_seats: yup
         .number("Enter Number of Available Seats")
         .required("Seats are required")
 });
@@ -17,7 +17,7 @@ function AddPackagesForm(props) {
     const formik = useFormik({
         initialValues: {
             price: 0,
-            stock: 24
+            total_seats: 24
         },
         validationSchema: validationSchema,
         onSubmit: (values) => {
@@ -52,11 +52,11 @@ function AddPackagesForm(props) {
                         shrink: true                                              
                     }} 
                     placeholder={'Number of Seats'}
-                    name={'stock'}
-                    value={formik.values.stock}
+                    name={'total_seats'}
+                    value={formik.values.total_seats}
                     onChange={formik.handleChange}
-                    error={formik.touched.stock && Boolean(formik.errors.stock)}
-                    helperText={formik.touched.stock && formik.errors.stock}
+                    error={formik.touched.total_seats && Boolean(formik.errors.total_seats)}
+                    helperText={formik.touched.total_seats && formik.errors.total_seats}
                 />
                 <Box
                     display={'flex'}

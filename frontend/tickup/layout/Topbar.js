@@ -6,7 +6,9 @@ import Image from 'next/image'
 import Link from 'next/link'
 import {MdMenu} from 'react-icons/md'
 import Person1 from '../public/images/person1.jpg'
-import { deleteCookie } from 'cookies-next'
+import Company1 from '../public/images/company1.jpg'
+import Company2 from '../public/images/company2.jpg'
+import Company0 from '../public/images/company0.jpg'
 
 function Topbar(props) {
     const {handleOpenSidebar, userData} = props
@@ -24,7 +26,8 @@ function Topbar(props) {
     };
     const handleLogOut = () => {
         console.log("LOGOUT")
-        deleteCookie('User', { path: '/login', domain: 'http://localhost:3000' });
+        localStorage.removeItem('User')
+        router.push('/login')
     }
     return (
         <Box
@@ -61,7 +64,7 @@ function Topbar(props) {
                     >
                         <Image layout={'responsive'} src={Logo} />
                     </Box>
-                    <Link href={'/'}>
+                    <Link href={userData?`/seller/${userData.id}/dashboard`:'/tours'}>
                         <Typography
                             component={'h1'}
                             fontFamily={'Russo One'}
@@ -84,29 +87,29 @@ function Topbar(props) {
                         alignItems={'center'}
                     >
                         <Box width={'fit-content'} marginRight={'24px'}>
-                            {router.pathname === '/dashboard'? (
-                                <Link href={'/tours'}>
-                                    <a className={router.pathname=='/tours'?'menu_link_desktop_active':'menu_link_desktop'}>Become a Customer</a>
-                                </Link>
+
+                            {userData?(
+                                <Box>
+                                    {(router.pathname.includes('seller') || router.pathname.includes('edit') || router.pathname.includes('create'))?(
+                                        <Link href={'/tours'}>
+                                            <a className={router.pathname=='/tours'?'menu_link_desktop_active':'menu_link_desktop'}>Become a Customer</a>
+                                        </Link>
+                                    ):(
+                                        <Link href={`/seller/${userData.id}/dashboard`}>
+                                            <a className={router.pathname=='/dashboard'?'menu_link_desktop_active':'menu_link_desktop'}>Become a Seller</a>
+                                        </Link>
+                                    )}
+                                </Box>
                             ):(
-                                <Link href={'/dashboard'}>
+                                <Link href={`/login`}>
                                     <a className={router.pathname=='/dashboard'?'menu_link_desktop_active':'menu_link_desktop'}>Become a Seller</a>
                                 </Link>
                             )}
+                            
                         </Box>
                         {userData?(
                             <Box>
-                                {/* <IconButton
-                                     onClick={handleClick}
-                                     size="small"
-                                     sx={{ ml: 2 }}
-                                     aria-controls={open ? 'account-menu' : undefined}
-                                     aria-haspopup="true"
-                                     aria-expanded={open ? 'true' : undefined}
-                                >
-                                    National Icon
-                                </IconButton> */}
-                                {/* <Box
+                                <Box
                                     position={'relative'}
                                     width={'40px'}
                                     height={'40px'}
@@ -118,7 +121,7 @@ function Topbar(props) {
                                     aria-expanded={open ? 'true' : undefined}
                                     sx={{cursor: 'pointer'}}
                                 >
-                                    <Image src={Person1} layout={'fill'} objectFit={'cover'} />
+                                    <Image src={userData===1?Company1:(userData===2?Company2:Company0)} layout={'fill'} objectFit={'cover'} />
                                 </Box>
                                 <Menu
                                     anchorEl={anchorEl}
@@ -130,8 +133,7 @@ function Topbar(props) {
                                     anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
                                 >
                                     <MenuItem onClick={handleLogOut}>Log Out</MenuItem>
-                                </Menu> */}
-                                <Typography>NFC</Typography>
+                                </Menu>
                             </Box>
                         ):(
                             <Link href={'/login'}>
