@@ -8,7 +8,7 @@ import { backendServer } from '../config'
 
 function TourCard(props) {
     const theme = useTheme()
-    const {mode, state, title, price, seats, image, id} = props
+    const {mode, state, title, price, days, departure_date, seats, image, id} = props
     return (
         <Box
             width={'100%'}
@@ -82,7 +82,7 @@ function TourCard(props) {
                         color={theme.palette.primary.main}
                         // marginBottom={'12px'}
                     >
-                        5 Days
+                        {days} Days
                     </Typography>
                     <Typography
                         component={'h3'}
@@ -93,7 +93,7 @@ function TourCard(props) {
                         color={theme.palette.primary.main}
                         // marginBottom={'12px'}
                     >
-                        25 Jul, 2022
+                        {departure_date.split('T')[0]}
                     </Typography>
                 </Box>
                 <Box

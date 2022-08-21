@@ -109,6 +109,8 @@ export default function Tours(props) {
                                                 <Grid item xs={12} md={6} lg={4} key={ `tour-${index}`}>
                                                     <TourCard 
                                                         state={item.state} 
+                                                        days={item.days}
+                                                        departure_date={item.departure_date}
                                                         mode={'customer'} 
                                                         title={item.title}
                                                         price={item.price}
@@ -136,6 +138,7 @@ export const getServerSideProps = async () => {
     try {
         const res = await fetch(`${backendServer}/items`)
         const data = await res.json()
+        console.log(data)
         return {
             props: {
                 toursData: data

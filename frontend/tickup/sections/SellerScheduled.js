@@ -40,6 +40,8 @@ function SellerScheduled(props) {
                         <TourCard 
                             state={item.state} 
                             mode={'seller'} 
+                            days={item.days}
+                            departure_date={item.departure_date}
                             title={item.title}
                             price={item.price}
                             seats={item.stock}

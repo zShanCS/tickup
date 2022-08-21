@@ -53,7 +53,7 @@ const packages = [
 
 
 function TourDetails(props) {
-    const {title, id, image, seats, price} = props
+    const {title, id, image,days, departure_date, seats, price} = props
     const theme = useTheme()
     const isSmall = useMediaQuery(theme.breakpoints.down('sm'))
     const isMed = useMediaQuery(theme.breakpoints.down('md'))
@@ -100,7 +100,7 @@ function TourDetails(props) {
                     fontWeight={500}
                     textAlign={'center'}
                 >
-                    5 Days
+                    {days} Days
                 </Typography>
                 <Typography 
                     component={'h4'}
@@ -109,7 +109,7 @@ function TourDetails(props) {
                     fontWeight={500}
                     textAlign={'center'}
                 >
-                    Departure on 26th Aug, 2022, Thursday
+                    Departure on {departure_date}
                 </Typography>
                 <Box
                     width={'100%'}
@@ -131,7 +131,7 @@ function TourDetails(props) {
                         >
                             <Box
                                 width={'100%'}
-                                height={isMed?(isSmall?'360px':'420px'):'480px'}
+                                height={isMed?(isSmall?'240px':'240px'):'240px'}
                                 position={'relative'}
                                 borderRadius={'8px'}
                                 overflow={'hidden'}
@@ -284,7 +284,6 @@ function TourDetails(props) {
             <Box
                 paddingY={'18px'}
             >
-                <Typography>DETAILS ... </Typography>
             </Box>
             
         </Box>

@@ -131,6 +131,7 @@ function CreateTour() {
         })
         .then((res) => res.json())
         .then((data) => {
+            localStorage.setItem(`created-${data.id}`,'true')
             router.push(`/tours/${data.id}`)
         })
     }
