@@ -24,7 +24,8 @@ function login() {
             <Container>
                 <Grid container spacing={2} alignItems={'center'}>
                     <Grid item xs={12} md={6} lg={6}>
-                        {loginMode === 1 ? <CustomerLogin changeLoginMode={changeLoginMode} /> : <SellerLogin changeLoginMode={changeLoginMode} />}
+                        <SellerLogin changeLoginMode={changeLoginMode} />
+                        {/* {loginMode === 1 ? <CustomerLogin changeLoginMode={changeLoginMode} /> : <SellerLogin changeLoginMode={changeLoginMode} />} */}
                     </Grid>
                     <Grid item xs={12} md={6} lg={6}>
                         <Hidden only={['xs','sm']}>

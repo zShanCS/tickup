@@ -8,6 +8,7 @@ import TransportationIcon from '../public/images/icons/bus.png'
 import TourGuideIcon from '../public/images/icons/tour-guide.png'
 import OffRoadIcon from '../public/images/icons/jeep.png'
 import Image from 'next/image';
+import moment from 'moment';
 
 const servicesProvided = [
     {
@@ -34,6 +35,11 @@ const servicesProvided = [
 function EditMainDetails(props) {
     const [editMode, setEditMode] = useState(false)
     const theme = useTheme()
+    const {title, details, days, departure} = props
+    const [editTitle, setEditTitle] = useState(title)
+    const [editDetails, setEditDetails] = useState(details)
+    const [editDays, setEditDays] = useState(days)
+    const [editDeparture, setEditDeparture] = useState(departure)
     const toggleMainEditMode = () => {
         setEditMode(!editMode)
     }
@@ -62,6 +68,7 @@ function EditMainDetails(props) {
                                 InputLabelProps={{
                                     shrink: true                                              
                                 }} 
+                                value={editTitle}
                             />
                             <TextField 
                                 variant={'filled'} 
@@ -69,6 +76,7 @@ function EditMainDetails(props) {
                                 label={'Days'} 
                                 fullWidth 
                                 sx={{marginTop:'12px'}} 
+                                value={editDays}
                             />
                             <TextField 
                                 variant={'filled'} 
@@ -93,6 +101,7 @@ function EditMainDetails(props) {
                                     shrink: true                                              
                                 }} 
                                 placeholder={'Write Details for Your Tour ...'}
+                                value={editDetails}
                             />
 
                             <FormControl sx={{marginTop: '12px'}}>
@@ -136,20 +145,20 @@ function EditMainDetails(props) {
                                 fontSize={'28px'}
                                 fontWeight={'600'}
                             >
-                                5 Days Kashmir Tour (Arangkel and Taobatt)
+                                {title}
                             </Typography>
                             <Typography
                                 marginTop={'14px'}
                                 fontSize={'18px'}
                                 fontWeight={'600'}
                             >
-                                5 Days
+                                {days} Days
                             </Typography>
                             <Typography
                                 fontSize={'18px'}
                                 fontWeight={'600'}
                             >
-                                Departure on 25 August
+                                Departure on {new Date(departure).toLocaleDateString()}
                             </Typography>
                             <Box
                                 width={'100%'}
