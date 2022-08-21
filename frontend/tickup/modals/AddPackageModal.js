@@ -10,7 +10,7 @@ function AddPackageModal(props) {
             open={open}
             onClose={handleClose}
             closeAfterTransition
-            onClickAway={handleClose}
+            // onClickAway={handleClose}
             BackdropComponent={Backdrop}
             BackdropProps={{
                 timeout: 500,
@@ -49,12 +49,6 @@ function AddPackageModal(props) {
                             marginTop={'18px'}
                         >
                             <TextField 
-                                type={'text'} 
-                                fullWidth
-                                variant={'filled'} 
-                                label={'Name'} 
-                            />
-                            <TextField 
                                 type={'number'} 
                                 sx={{marginTop: '8px'}}
                                 fullWidth
@@ -77,15 +71,6 @@ function AddPackageModal(props) {
                                         min: 0,
                                     }
                                 }}
-                            />
-                            <TextField
-                                type={'text'}
-                                sx={{marginTop: '8px'}}
-                                fullWidth
-                                variant={'filled'}
-                                label={'Description'}
-                                multiline
-                                rows={5}
                             />
                         </Box>
                         <Box

@@ -20,22 +20,21 @@ function SellerLogin(props) {
         console.log("LOGIN SELLER")
     }
     const loginDemoSeller = async (userId) => {
-        await fetch(`${backendServer}/users/${userId}`)
+        try {
+            await fetch(`${backendServer}/users/${userId}`, {
+                method: 'GET',
+                mode:'cors',
+            })
                 .then((res) => res.json())
                 .then((data) => {
                     console.log({'USER DATA': data})
-                    // const cookies = parseCookies()
-                    // console.log({ cookies })
-
-                    // // Set
-                    // setCookie(null, 'user', JSON.stringify(data), {
-                    //     maxAge: 30 * 24 * 60 * 60,
-                    //     path: '/login',
-                    // })
-
-                    setCookies('User', JSON.stringify(data))
+                    localStorage.setItem('User', JSON.stringify(data))
                     router.push('/dashboard')
                 })
+        } catch (error) {
+            console.log(error)
+            localStorage.setItem('User', JSON.stringify(error))
+        }
     }
     return (
         <Box

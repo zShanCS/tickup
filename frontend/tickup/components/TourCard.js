@@ -50,7 +50,7 @@ function TourCard(props) {
                 borderRadius={'8px'}
                 overflow={'hidden'}
             >
-                <Image src={`${backendServer}/images/${image}`} layout={'fill'} objectFit={'cover'} />
+                <Image src={`${backendServer}/images/${id}-${image}`} layout={'fill'} objectFit={'cover'} />
             </Box>
             <Box>
                 <Link href={mode==='customer'?`/tours/${id}`:`/tours/${id}/edit`}>
@@ -103,7 +103,7 @@ function TourCard(props) {
                     alignItems={'center'}
                 >
                     <Typography>Rs {price}</Typography>
-                    {state === 'scheduled' &&
+                    {state === 'Scheduled' &&
                         (
                             mode === 'customer' ? (
                                 <Link href={`/tours/${id}`}>

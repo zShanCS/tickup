@@ -43,12 +43,14 @@ export const getServerSideProps = async ({ params }) => {
     try {
         const res = await fetch(`${backendServer}/items/${id}`)
         const data = await res.json()
+        console.log({Data: data})
         return {
             props: {
                 tourData: data
             }
         } 
     } catch (error) {
+        console.log({Error: error})
         return {
             props: {
                 pageError: error.message

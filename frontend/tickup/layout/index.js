@@ -4,7 +4,6 @@ import { Box } from '@mui/material'
 import Sidebar from './Sidebar'
 import {useState} from 'react'
 import Footer from './Footer'
-import { getCookie } from 'cookies-next'
 
 function index(props) {
     const {layourData, children} = props
@@ -16,10 +15,6 @@ function index(props) {
     const handleCloseSidebar = () => {
         setIsOpen(false)
     }
-    useEffect(() => {
-        setUserData(JSON.parse(getCookie('User')))
-        console.log({'Layout Data': userData})
-    }, [])
     return (
         <>
             <Topbar handleOpenSidebar={handleOpenSidebar} userData={userData} />

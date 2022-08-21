@@ -136,7 +136,7 @@ function TourDetails(props) {
                                 borderRadius={'8px'}
                                 overflow={'hidden'}
                             >
-                                <Image src={`${backendServer}/images/${image}`} layout={'fill'} objectFit={'cover'} />
+                                <Image src={`${backendServer}/images/${id}-${image}`} layout={'fill'} objectFit={'cover'} />
                             </Box>
                         </Box>
                         {/* <Carousel 
