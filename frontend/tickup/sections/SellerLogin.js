@@ -4,14 +4,15 @@ import Link from 'next/link'
 import SquareLogo from '../public/images/square-logo.png'
 import Image from 'next/image'
 import {backendServer} from '../config'
-import {setCookies} from 'cookies-next'
 import {useRouter} from 'next/router'
+import Swal from 'sweetalert2'
 // import nookies from 'nookies'
 // import { parseCookies, setCookie, destroyCookie } from 'nookies'
 
 function SellerLogin(props) {
     const theme = useTheme()
     const {changeLoginMode} = props
+    // const MySwal = withReactContent(Swal)
     const router = useRouter()
     const updateLoginMode = () => {
         changeLoginMode(1)
@@ -27,14 +28,27 @@ function SellerLogin(props) {
             })
                 .then((res) => res.json())
                 .then((data) => {
-                    console.log({'USER DATA': data})
-                    localStorage.setItem('User', JSON.stringify(data))
-                    router.push(`seller/${data.id}/dashboard`)
-                    // router.reload()
+                    if(data.details){
+                        Swal.fire({
+                            title: 'Sorry',
+                            text: data.detail,
+                            icon: 'warning',
+                            confirmButtonText: 'OK'
+                        })
+                    } else {
+                        console.log({'USER DATA': data})
+                        localStorage.setItem('User', JSON.stringify(data))
+                        router.push(`seller/${data.id}/dashboard`)
+                    }
                 })
         } catch (error) {
             console.log(error)
-            localStorage.setItem('User', JSON.stringify(error))
+            Swal.fire({
+                title: 'Sorry',
+                text: 'We Cannot Connect To Server Right Know, Please Try Again Later',
+                icon: 'warning',
+                confirmButtonText: 'OK'
+            })
         }
     }
     return (

@@ -6,7 +6,7 @@ import AddImages from '../../sections/AddImages';
 import FormData from 'form-data';
 import {useRouter} from 'next/router';
 import {backendServer} from '../../config'
-// import fs from 'fs'
+import Head from 'next/head'
 
 const steps = [
     'Fill out Major Details of Tour',
@@ -76,7 +76,7 @@ function CreateTour() {
     };
 
     const addToFormData = (formObj) => {
-        console.log({FORM: formObj})
+        // console.log({FORM: formObj})
         setCreateData({...createData, ...formObj})
         // if(type === 'json'){
         //     console.log({FORM: formObj})
@@ -92,7 +92,7 @@ function CreateTour() {
         //     console.log(fileFormData)
         // }
         
-        console.log({Entries: createData})
+        // console.log({Entries: createData})
     }
 
     const handleSave = async () => {
@@ -119,6 +119,9 @@ function CreateTour() {
             width={'100%'}
             paddingY={'36px'}
         >
+            <Head>
+                <title>Create Tour - TickUp</title>
+            </Head>
             <Container>
                 <Typography
                     component={'h2'}

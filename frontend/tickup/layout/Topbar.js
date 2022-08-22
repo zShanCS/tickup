@@ -1,5 +1,5 @@
 import React from 'react'
-import {Avatar, Box, Button, Hidden, IconButton, Menu, MenuItem, Typography, useMediaQuery, useTheme} from '@mui/material'
+import {Avatar, Box, Button, Divider, Hidden, IconButton, ListItemIcon, Menu, MenuItem, Typography, useMediaQuery, useTheme} from '@mui/material'
 import { useRouter } from "next/router"
 import Logo from '../public/images/logos/logo-dark.png'
 import Image from 'next/image'
@@ -9,6 +9,7 @@ import Person1 from '../public/images/person1.jpg'
 import Company1 from '../public/images/company1.jpg'
 import Company2 from '../public/images/company2.jpg'
 import Company0 from '../public/images/company0.jpg'
+import {MdLogout} from 'react-icons/md'
 
 function Topbar(props) {
     const {handleOpenSidebar, userData} = props
@@ -121,7 +122,7 @@ function Topbar(props) {
                                     aria-expanded={open ? 'true' : undefined}
                                     sx={{cursor: 'pointer'}}
                                 >
-                                    <Image src={userData===1?Company1:(userData===2?Company2:Company0)} layout={'fill'} objectFit={'cover'} />
+                                    <Image src={userData.id===1?Company1:(userData.id===2?Company2:Company0)} layout={'fill'} objectFit={'cover'} />
                                 </Box>
                                 <Menu
                                     anchorEl={anchorEl}
@@ -132,7 +133,12 @@ function Topbar(props) {
                                     transformOrigin={{ horizontal: 'right', vertical: 'top' }}
                                     anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
                                 >
-                                    <MenuItem onClick={handleLogOut}>Log Out</MenuItem>
+                                    <Typography textAlign={'center'}marginX={'12px'} color={theme.palette.primary.main}>{userData.name}</Typography>
+                                    <Divider />
+                                    <MenuItem onClick={handleLogOut}>
+                                        <ListItemIcon><MdLogout /></ListItemIcon>
+                                        Log Out
+                                    </MenuItem>
                                 </Menu>
                             </Box>
                         ):(

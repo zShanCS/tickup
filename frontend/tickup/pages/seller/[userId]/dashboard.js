@@ -11,6 +11,7 @@ import ErrorPage from '../../../sections/ErrorPage'
 import PageLoader from '../../../sections/PageLoader'
 import { backendServer } from '../../../config'
 import { useRouter } from 'next/router'
+import Head from 'next/head'
 
 function dashboard(props) {
     const theme = useTheme()
@@ -23,9 +24,10 @@ function dashboard(props) {
     // const [userData, setUserData] = useState(null)
     const [dashboardData, setDashboardData] = useState(null)
     useEffect(() => {
-        setLocalData(JSON.parse(localStorage.getItem('User')))
+        
         if(localStorage.getItem('User')){
             setPageState(2)
+            setLocalData(JSON.parse(localStorage.getItem('User')))
         } else {
             setPageState(1)
         }
@@ -35,48 +37,58 @@ function dashboard(props) {
             width={'100%'}
             paddingY={'36px'}
         >
+            <Head>
+                <title>Dashboard - TickUp</title>
+            </Head>
+
             <Container>
-                {pageState === 0 && <PageLoader />}
-                {pageState === 1 && <ErrorPage />}
-                {(pageState === 2 && localData['id']!==userData['id']) && <ErrorPage />}
-                {(pageState === 2 && localData['id']===userData['id']) &&  
-                <Box>
-                    {userData.items && userData.items.length > 0 ? (
-                        <Box
-                            width={'100%'}
-                        >
-                            <Typography
-                                component={'h2'}
-                                color={theme.palette.primary.main}
-                                fontSize={'28px'}
-                                fontWeight={'600'}
-                            >
-                                {userData.name} Dashboard
-                            </Typography>
-                            {/* <ChartsInfo /> */}
-                            <Divider />
-                            <SellerScheduled tours={userData.items.filter((item) => item.state==='Scheduled')} />
-                            {/* <Divider />
-                            <SellerInProgress />
-                            <Divider />
-                            <SellerCompleted />
-                            <Divider />
-                            <SellerCancelled /> */}
-                        </Box> 
-                    ):(
+                {pageError? (
+                    <ErrorPage />
+                ):(
+                    <Box>
+                        {pageState === 0 && <PageLoader />}
+                        {pageState === 1 && <ErrorPage />}
+                        {(pageState === 2 && localData['id']!==userData['id']) && <ErrorPage />}
+                        {(pageState === 2 && localData['id']===userData['id']) &&  
                         <Box>
-                            <Typography
-                                component={'h2'}
-                                color={theme.palette.primary.main}
-                                fontSize={'28px'}
-                                fontWeight={'600'}
-                            >
-                                {userData.name} Dashboard
-                            </Typography>
-                            <AddFirstTour />
-                        </Box>
-                    )}     
-                </Box>}
+                            {userData.items && userData.items.length > 0 ? (
+                                <Box
+                                    width={'100%'}
+                                >
+                                    <Typography
+                                        component={'h2'}
+                                        color={theme.palette.primary.main}
+                                        fontSize={'28px'}
+                                        fontWeight={'600'}
+                                    >
+                                        {userData.name} Dashboard
+                                    </Typography>
+                                    {/* <ChartsInfo /> */}
+                                    <Divider />
+                                    <SellerScheduled tours={userData.items.filter((item) => item.state==='Scheduled')} />
+                                    {/* <Divider />
+                                    <SellerInProgress />
+                                    <Divider />
+                                    <SellerCompleted />
+                                    <Divider />
+                                    <SellerCancelled /> */}
+                                </Box> 
+                            ):(
+                                <Box>
+                                    <Typography
+                                        component={'h2'}
+                                        color={theme.palette.primary.main}
+                                        fontSize={'28px'}
+                                        fontWeight={'600'}
+                                    >
+                                        {userData.name} Dashboard
+                                    </Typography>
+                                    <AddFirstTour />
+                                </Box>
+                            )}     
+                        </Box>}
+                    </Box>
+                )}
                 
                 
             </Container>
@@ -92,7 +104,7 @@ export const getServerSideProps = async ({ params }) => {
     try {
         const res = await fetch(`${backendServer}/users/${userId}`)
         const data = await res.json()
-        console.log({Data: data})
+        // console.log({Data: data})
         return {
             props: {
                 userData: data
