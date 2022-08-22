@@ -46,7 +46,7 @@ def get_db():
         db.close()
 
 
-@app.post("/users/", response_model=schemas.User)
+@app.post("/api/users/", response_model=schemas.User)
 def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
     db_user = crud.get_user_by_email(db, email=user.email)
     if db_user:
@@ -54,13 +54,13 @@ def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
     return crud.create_user(db=db, user=user)
 
 
-@app.get("/users/", response_model=List[schemas.User])
+@app.get("/api/users/", response_model=List[schemas.User])
 def read_users(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     users = crud.get_users(db, skip=skip, limit=limit)
     return users
 
 
-@app.get("/users/{user_id}", response_model=schemas.User)
+@app.get("/api/users/{user_id}", response_model=schemas.User)
 def read_user(user_id: int, db: Session = Depends(get_db)):
     db_user = crud.get_user(db, user_id=user_id)
     if db_user is None:
@@ -68,7 +68,7 @@ def read_user(user_id: int, db: Session = Depends(get_db)):
     return db_user
 
 
-@app.post("/users/{user_id}/items/", response_model=schemas.Item )
+@app.post("/api/users/{user_id}/items/", response_model=schemas.Item )
 def create_item_for_user(
     user_id: int,
     file: UploadFile,
@@ -104,18 +104,18 @@ def create_item_for_user(
     return item
 
 
-@app.get("/items/", response_model=List[schemas.Item])
+@app.get("/api/items/", response_model=List[schemas.Item])
 def read_items(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     items = crud.get_items(db, skip=skip, limit=limit)
     return items
 
-@app.get("/items/{item_id}", response_model=schemas.Item)
+@app.get("/api/items/{item_id}", response_model=schemas.Item)
 def read_items(item_id:int, db: Session = Depends(get_db)):
     items = crud.get_item(db, item_id = item_id)
     return items
 
 
-@app.get('/create_checkout')
+@app.get('/api/create_checkout')
 def create_checkout(item_id:int, quantity:int, db: Session = Depends(get_db)):
     if quantity<1:
         raise HTTPException(status_code=400, detail="quantity cant be less than 1")
@@ -148,7 +148,7 @@ def create_checkout(item_id:int, quantity:int, db: Session = Depends(get_db)):
         return HTTPException(status_code=400, detail=result.errors)
 
 
-@app.get('/ticket-bought', response_class=HTMLResponse)
+@app.get('/api/ticket-bought', response_class=HTMLResponse)
 def ticket_bought(checkoutId:str, transactionId:str, db: Session = Depends(get_db) ):
     print(checkoutId, transactionId)
 
@@ -197,7 +197,7 @@ def ticket_bought(checkoutId:str, transactionId:str, db: Session = Depends(get_d
         <body style="height:100%;display:flex; justify-content:center; align-item:center;">
             <div>
                 <h1 style="text-align:center;" >Redirecting...</h1>
-                <a hidden download href='/pdf/{checkoutId}' >Download Receipt</a>
+                <a hidden download href='/api/pdf/{checkoutId}' >Download Receipt</a>
             </div>
             <script>
                 document.querySelector('a').click()
@@ -209,7 +209,7 @@ def ticket_bought(checkoutId:str, transactionId:str, db: Session = Depends(get_d
     return HTMLResponse(content=html_content, status_code=200)
 
 
-@app.get('/pdf/{checkoutId}',  response_class=FileResponse)
+@app.get('/api/pdf/{checkoutId}',  response_class=FileResponse)
 def get_pdf(checkoutId:str,):
     path = f'receipts/{checkoutId}.pdf'
     if os.path.exists(path):
@@ -220,7 +220,7 @@ def get_pdf(checkoutId:str,):
     
 
 
-@app.get('/oauth-redirect')
+@app.get('/api/oauth-redirect')
 def redirect(code:str, response_type:str, state:str, db: Session = Depends(get_db)):
     result = obtain_oauth(
         os.environ['OWN_ACCESS_TOKEN'], 
@@ -260,8 +260,8 @@ def redirect(code:str, response_type:str, state:str, db: Session = Depends(get_d
         # print(result.errors)
     return 'authe success'
 
-@app.get('/oauth-link')
+@app.get('/api/oauth-link')
 def oauth_link():
     return f'https://squareup.com/oauth2/authorize?client_id=sq0idp-FuPiCIjGxeZe7JmFVfq68w&scope=PAYMENTS_WRITE+ORDERS_WRITE+ORDERS_READ+MERCHANT_PROFILE_READ&state=82201dd8d83d23cc8a48caf52b'
 
-app.mount("/images", StaticFiles(directory="images"), name="static_images")
+app.mount("/api/images", StaticFiles(directory="images"), name="static_images")
