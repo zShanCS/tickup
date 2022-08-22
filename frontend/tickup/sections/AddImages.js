@@ -13,7 +13,7 @@ export const validateImageType = (value) => {
 }
 
 const validationSchema = yup.object({
-    file: yup.mixed().required('Image is required'),
+    file: yup.mixed(),
 });
 
 function AddImages(props) {
@@ -34,7 +34,7 @@ function AddImages(props) {
                 e.preventDefault()
                 console.log(e.currentTarget)
                 handleComplete(e.currentTarget, 'multipart')
-            }} encType={'multipart/form-data'}>
+            }} encType={'application/x-www-form-urlencoded'}>
                 <TextField 
                     variant={'filled'} 
                     type={'file'} 

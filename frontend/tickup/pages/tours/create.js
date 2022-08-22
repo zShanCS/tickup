@@ -112,7 +112,7 @@ function CreateTour() {
         // }
     }
 
-    const handleSave = () => {
+    const handleSave = async () => {
         // formData.append('state', 'scheduled')
         // formData.append('owner_id', 1)
         // for (const attr in createData){
@@ -128,8 +128,7 @@ function CreateTour() {
         fetch(`${backendServer}/users/${userId}/items`,{
             method: 'POST',
             body: createData,
-            credentials:'omit',
-            mode:'cors'
+            credentials:'omit'
         })
         .then((res) => res.json())
         .then((data) => {
