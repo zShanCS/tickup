@@ -6,7 +6,7 @@ import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 import TourCard from '../components/TourCard'
 import PageLoader from '../sections/PageLoader'
-import Head from 'next/head'
+// import Head from 'next/head'
 
 export default function Home() {
     const theme = useTheme()
