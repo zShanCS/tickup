@@ -30,7 +30,7 @@ function AddPackagesForm(props) {
                 <TextField 
                     variant={'filled'} 
                     type={'number'} 
-                    label={'Price'} 
+                    label={'Price (cents)'} 
                     fullWidth 
                     placeholder='Price of Tour per Seat'
                     InputLabelProps={{

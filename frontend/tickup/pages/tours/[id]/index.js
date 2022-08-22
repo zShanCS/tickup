@@ -3,7 +3,7 @@ import {Box, Container, Typography, useTheme, useMediaQuery, Button, Grid} from 
 import Link from 'next/link'
 import TourDetails from '../../../sections/TourDetails'
 import CheckoutSection from '../../../sections/CheckoutSection'
-import {backendServer} from '../../../config'
+import {backendServer, frontendServer} from '../../../config'
 
 
 
@@ -32,7 +32,7 @@ function BookTourPage(props) {
                      
                     <Grid item xs={12} md={4} lg={3} >
                         <Typography fontSize={'28px'} display={'flex'} alignContent={'center'} justifyContent={'center'}>
-                            <Link target={'_blank'} href={`https://twitter.com/compose/tweet?text=Checkout the amazing new Trip at ${backendServer}/items/${tourData.id}`}>
+                            <Link target={'_blank'} href={`https://twitter.com/compose/tweet?text=Checkout the amazing new Trip at ${frontendServer}/tours/${tourData.id}`}>
                                 Share via Tweet
                             </Link>
                         </Typography>

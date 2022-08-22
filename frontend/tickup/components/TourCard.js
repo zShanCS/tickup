@@ -102,7 +102,7 @@ function TourCard(props) {
                     justifyContent={'space-between'}
                     alignItems={'center'}
                 >
-                    <Typography>Rs {price}</Typography>
+                    <Typography>$ {price/100}</Typography>
                     {state === 'Scheduled' &&
                         (
                             mode === 'customer' ? (

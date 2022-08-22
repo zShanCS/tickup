@@ -228,7 +228,7 @@ function TourDetails(props) {
                         lineHeight={'36px'}
                         fontWeight={'600'}
                     >
-                        Rs. {price}
+                        $ {price/100}
                     </Typography>
                 </Box>
             </Box>

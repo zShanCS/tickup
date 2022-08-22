@@ -75,7 +75,7 @@ function EditPackages(props) {
                                 color={theme.palette.primary.main}
                                 textTransform={'uppercase'}
                             >
-                                Rs. {price}
+                                $ {price/100}
                             </Typography>
                             
                         </Box>

@@ -102,7 +102,7 @@ function CheckoutSection(props) {
                         borderRadius={'8px'}
                         margin={0}
                     >
-                        Rs. {seatsSelected * price}
+                        $ {seatsSelected * price /100}
                     </Typography>
                 </Box>
                 <Button 
