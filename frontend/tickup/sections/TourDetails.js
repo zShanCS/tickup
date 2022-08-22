@@ -73,26 +73,7 @@ function TourDetails(props) {
                 >
                     {title}
                 </Typography>
-                <Box
-                    display={'flex'}
-                    alignItems={'center'}
-                    marginTop={'8px'}
-                >   
-                    <Box
-                        width={'24px'}
-                        height={'24px'}
-                        position={'relative'}
-                        borderRadius={'50%'}
-                        overflow={'hidden'}
-                    >
-                        <Image src={Person1} layout={'fill'} objectFit={'cover'} />
-                    </Box>
-                    <Box display={'flex'} marginLeft={'8px'}>
-                        <Typography><em>By </em></Typography>
-                        <Typography marginLeft={'4px'} fontWeight={800}>TripCo. PVT Ltd.</Typography>
-                    </Box>
-                    
-                </Box>
+                
                 <Typography 
                     component={'h4'}
                     color={theme.palette.primary.main}
@@ -136,7 +117,7 @@ function TourDetails(props) {
                                 borderRadius={'8px'}
                                 overflow={'hidden'}
                             >
-                                <Image src={`${backendServer}/images/${id}-${image}`} layout={'fill'} objectFit={'cover'} />
+                                <Image src={`${image}`} layout={'fill'} objectFit={'cover'} />
                             </Box>
                         </Box>
                         {/* <Carousel 

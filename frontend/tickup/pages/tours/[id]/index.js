@@ -4,6 +4,7 @@ import Link from 'next/link'
 import TourDetails from '../../../sections/TourDetails'
 import CheckoutSection from '../../../sections/CheckoutSection'
 import {backendServer, frontendServer} from '../../../config'
+import {FaTwitter} from 'react-icons/fa'
 
 
 
@@ -33,7 +34,18 @@ function BookTourPage(props) {
                     <Grid item xs={12} md={4} lg={3} >
                         <Typography fontSize={'28px'} display={'flex'} alignContent={'center'} justifyContent={'center'}>
                             <Link target={'_blank'} href={`https://twitter.com/compose/tweet?text=Checkout the amazing new Trip at ${frontendServer}/tours/${tourData.id}`}>
-                                Share via Tweet
+                               <a target={'_blank'}>
+                               <Button variant={'outlined'} sx={{
+                                    color: theme.palette.social.twitter,
+                                    border: '1px solid',
+                                    borderColor: theme.palette.social.twitter,
+                                    marginBottom:'18px'
+                               }}
+                                startIcon={<FaTwitter />}
+                               >
+                                    Share via Tweet
+                               </Button>
+                               </a>
                             </Link>
                         </Typography>
                         

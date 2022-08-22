@@ -19,7 +19,7 @@ function CreateTour() {
     const [skipped, setSkipped] = useState(new Set());
     const [completed, setCompleted] = useState({})
     // const [userData, setUserData] = useState(null)
-    const formData = new FormData()
+    
     const [createData, setCreateData] = useState({})
     const theme = useTheme()
     const router = useRouter()
@@ -62,9 +62,9 @@ function CreateTour() {
         setActiveStep(step);
     };
     
-    const handleComplete = (formObj, type='json') => {
+    const handleComplete = (formObj) => {
         const newCompleted = completed;
-        addToFormData(formObj, type)
+        addToFormData(formObj)
         newCompleted[activeStep] = true;
         setCompleted(newCompleted);
         handleNext();
@@ -75,60 +75,38 @@ function CreateTour() {
         setCompleted({});
     };
 
-    const addToFormData = (formObj, type='json') => {
-        
-        if(type === 'json'){
-            console.log({FORM: formObj})
-            setCreateData({...createData, ...formObj})
-        } else {
-            console.log("TPE: ", type)
-            const fileFormData = new FormData(formObj)
-            for (const attr in createData){
-                fileFormData.append(attr, createData[attr])
-            }
-            setCreateData(fileFormData)
-            console.log({CREATE: createData})
-            console.log(fileFormData)
-            // for (const pair of fileFormData.entries()) {
-            //     console.log(`${pair[0]}, ${pair[1]}`);
-            // }
-        }
+    const addToFormData = (formObj) => {
+        console.log({FORM: formObj})
+        setCreateData({...createData, ...formObj})
+        // if(type === 'json'){
+        //     console.log({FORM: formObj})
+        //     setCreateData({...createData, ...formObj})
+        // } else {
+        //     console.log("TPE: ", type)
+        //     const fileFormData = new FormData(formObj)
+        //     for (const attr in createData){
+        //         fileFormData.append(attr, createData[attr])
+        //     }
+        //     setCreateData(fileFormData)
+        //     console.log({CREATE: createData})
+        //     console.log(fileFormData)
+        // }
         
         console.log({Entries: createData})
-        // console.log("BEFORE NEW ENTRIES")
-        // for (const pair of formData.entries()) {
-        //     console.log(`${pair[0]}, ${pair[1]}`);
-        // }
-        // for (const attr in formObj){
-        //     formData.append(attr, formObj[attr])
-        // }
-        // console.log("NEW ENTRIES")
-        // for (const pair of formData.entries()) {
-        //     console.log(`${pair[0]}, ${pair[1]}`);
-        // }
-
-        // for (const value of formData.values()) {
-        //     console.log(value);
-        // }
     }
 
     const handleSave = async () => {
-        // formData.append('state', 'scheduled')
-        // formData.append('owner_id', 1)
-        // for (const attr in createData){
-        //     formData.append(attr, createData[attr])
-        // }
-        // formData.append('type', 'multipart/form-data')
-        // console.log({Entries: createData})
-
-        // for (const pair of createData.entries()) {
-        //     console.log(`${pair[0]}, ${pair[1]}`);
-        // }
+        
         const userId = JSON.parse(localStorage.getItem('User')).id
+        const formData = new FormData()
+        for (const attr in createData){
+            formData.append(attr, createData[attr])
+        }
+
         fetch(`${backendServer}/users/${userId}/items`,{
             method: 'POST',
-            body: createData,
-            credentials:'omit'
+            body: formData,
+            // credentials:'omit'
         })
         .then((res) => res.json())
         .then((data) => {

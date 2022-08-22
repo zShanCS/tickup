@@ -24,7 +24,7 @@ function TourCard(props) {
                 }
             }}
         >
-            <Box
+            {/* <Box
                 display={'flex'}
                 alignItems={'center'}
                 marginBottom={'8px'}
@@ -36,13 +36,13 @@ function TourCard(props) {
                     borderRadius={'50%'}
                     overflow={'hidden'}
                 >
-                    <Image src={`${backendServer}/images/${id}-${image}`} layout={'fill'} objectFit={'cover'} />
+                    <Image src={`${image}`} layout={'fill'} objectFit={'cover'} />
                 </Box>
                 <Box display={'flex'} marginLeft={'8px'}>
                     <Typography><em>By </em></Typography>
                     <Typography marginLeft={'4px'} fontWeight={800}>TripCo. PVT Ltd.</Typography>
                 </Box>
-            </Box>
+            </Box> */}
             <Box
                 width={'100%'}
                 height={'200px'}
@@ -50,7 +50,7 @@ function TourCard(props) {
                 borderRadius={'8px'}
                 overflow={'hidden'}
             >
-                <Image src={`${backendServer}/images/${id}-${image}`} layout={'fill'} objectFit={'cover'} />
+                <Image src={`${image}`} layout={'fill'} objectFit={'cover'} />
             </Box>
             <Box>
                 <Link href={mode==='customer'?`/tours/${id}`:`/tours/${id}/edit`}>
