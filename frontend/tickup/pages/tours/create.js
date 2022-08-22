@@ -127,7 +127,9 @@ function CreateTour() {
         const userId = JSON.parse(localStorage.getItem('User')).id
         fetch(`${backendServer}/users/${userId}/items`,{
             method: 'POST',
-            body: createData
+            body: createData,
+            credentials:'omit',
+            mode:'cors'
         })
         .then((res) => res.json())
         .then((data) => {
