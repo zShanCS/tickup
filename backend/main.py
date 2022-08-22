@@ -3,7 +3,9 @@ from square.client import Client
 import os
 import uuid
 from typing import List
-from fastapi.middleware.cors import CORSMiddleware
+
+from starlette.middleware.cors import CORSMiddleware
+
 from fastapi import Depends, FastAPI, HTTPException, Form, UploadFile
 from sqlalchemy.orm import Session
 from PIL import Image as PIL_Image
@@ -14,22 +16,18 @@ from fastapi.responses import HTMLResponse, FileResponse
 from dotenv import load_dotenv
 load_dotenv() 
 
-models.Base.metadata.create_all(bind=engine)
+models.Base.metadata.create_all(bind=engine, checkfirst=True)
 
 from utils import create_checkout_link, create_reciept, obtain_oauth
 
 app = FastAPI()
 origins = [
-    "*",
-    "https://tickup.netlify.app"
-    "http://localhost:3000",
-    "http://localhost:8000",
+    "*"
 ]
 
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
-    allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
@@ -99,6 +97,8 @@ def create_item_for_user(
         days=days,
         state='Scheduled'
     )
+    print(item,'created')
+    print('saving image now')
     item = crud.create_user_item(db=db, item=item, user_id=user_id)
     im.save(f'images/{item.id}-{file.filename}')
     return item
