@@ -4,11 +4,12 @@ import { useEffect, useState } from 'react'
 import TourCard from '../../components/TourCard'
 import { backendServer } from '../../config'
 import ErrorPage from '../../sections/ErrorPage'
-
-
+import Head from 'next/head'
 
 export default function Tours(props) {
     const {toursData, pageError} = props
+    const [toursList, setToursList] = useState([])
+    const [filterValue, setFilterValue] = useState('ALL')
     const theme = useTheme()
     const isSmall = useMediaQuery(theme.breakpoints.down('sm'))
     const isMed = useMediaQuery(theme.breakpoints.down('md'))
@@ -16,13 +17,29 @@ export default function Tours(props) {
     const toggleFilterSection  = () => { setShowFilter(!showFilter) }
     useEffect(() => {
         console.log({'Props in Tours': props})
+        setToursList(toursData)
     }, [props])
+    const handleFilterChange = (e) => {
+        // console.log(e.target.value)
+        setFilterValue(e.target.value)
+        if(e.target.value=='ALL'){
+            setToursList(toursData)
+        } else if(e.target.value==='M8'){
+            setToursList(toursData.filter(tour => tour.days >= 8))
+        } else {
+            setToursList(toursData.filter(tour => tour.days == e.target.value))
+        }
+    }
     return (
         <Box
             width={'100%'}
             marginY={'28px'}
         >
+            <Head>
+                <title>Tours - TickUp</title>
+            </Head>
             <Container maxWidth="xl">
+                
                 {pageError?(
                     <Box>
                         <ErrorPage />
@@ -57,28 +74,19 @@ export default function Tours(props) {
                                             <FormLabel>Days</FormLabel>
                                             <RadioGroup 
                                                 row={isMed?true:false}
+                                                value={filterValue}
+                                                onChange={handleFilterChange}
                                             >
-                                                <FormControlLabel value="ALL" control={<Radio />} label="All" />
-                                                <FormControlLabel value="1D" control={<Radio />} label="1 Day" />
-                                                <FormControlLabel value="3D" control={<Radio />} label="3 Days" />
-                                                <FormControlLabel value="5D" control={<Radio />} label="5 Days" />
-                                                <FormControlLabel value="8D" control={<Radio />} label="8 Days" />
-                                                <FormControlLabel value="M8D" control={<Radio />} label="More Than 8 Days" />
+                                                <FormControlLabel value="ALL" defaultChecked control={<Radio />} label="All" />
+                                                <FormControlLabel value={1} control={<Radio />} label="1 Day" />
+                                                <FormControlLabel value={3} control={<Radio />} label="3 Days" />
+                                                <FormControlLabel value={4} control={<Radio />} label="4 Days" />
+                                                <FormControlLabel value={5} control={<Radio />} label="5 Days" />
+                                                <FormControlLabel value={7} control={<Radio />} label="7 Days" />
+                                                <FormControlLabel value="M8" control={<Radio />} label=">=8 Days" />
                                             </RadioGroup>
                                         </FormControl>
-                                        <FormControl>
-                                            <FormLabel>Price Range</FormLabel>
-                                            <RadioGroup
-                                                row={isMed?true:false}
-                                            >
-                                                <FormControlLabel value="ALL" control={<Radio />} label="All" />
-                                                <FormControlLabel value="1D" control={<Radio />} label="10,000" />
-                                                <FormControlLabel value="3D" control={<Radio />} label="15,000" />
-                                                <FormControlLabel value="5D" control={<Radio />} label="20,000" />
-                                                <FormControlLabel value="8D" control={<Radio />} label="25,000" />
-                                                <FormControlLabel value="M8D" control={<Radio />} label="> 25,000" />
-                                            </RadioGroup>
-                                        </FormControl>
+                                        
                                         <Box
                                             width={'100%'}
                                             textAlign={'right'}
@@ -94,7 +102,7 @@ export default function Tours(props) {
                                     width={'100%'}
                                     sx={{
                                         transition: 'all 0.3s linear',
-                                        marginTop: showFilter?'0px':isMed?(isSmall?'-300px':'-220px'):'0px',
+                                        marginTop: showFilter?'0px':isMed?(isSmall?'-240px':'-160px'):'0px',
                                     }}
                                 >
                                     <Typography 
@@ -105,7 +113,7 @@ export default function Tours(props) {
                                     >Search the Best for You</Typography>
                                     <Box width={'100%'} marginTop={'28px'}>
                                         <Grid container spacing={2}>
-                                            {toursData.map((item, index) => (
+                                            {toursList.length > 0 && toursList.map((item, index) => (
                                                 <Grid item xs={12} md={6} lg={4} key={ `tour-${index}`}>
                                                     <TourCard 
                                                         state={item.state} 
@@ -120,6 +128,12 @@ export default function Tours(props) {
                                                     />
                                                 </Grid>
                                             ))}
+                                            {toursList.length === 0 && 
+                                            <Grid item xs={12}>
+                                                <Box width={'100%'} textAlign={'center'}>
+                                                    <Typography>Sorry, there are no items for you Search</Typography> 
+                                                </Box>    
+                                            </Grid>}
                                         </Grid>
                                     </Box>
                                 </Box>
@@ -138,7 +152,7 @@ export const getServerSideProps = async () => {
     try {
         const res = await fetch(`${backendServer}/items`)
         const data = await res.json()
-        console.log(data)
+        // console.log(data)
         return {
             props: {
                 toursData: data

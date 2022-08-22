@@ -53,7 +53,7 @@ const packages = [
 
 
 function TourDetails(props) {
-    const {title, id, image,days, departure_date, seats, price} = props
+    const {title, id, image,days, departure_date, seats, price, details} = props
     const theme = useTheme()
     const isSmall = useMediaQuery(theme.breakpoints.down('sm'))
     const isMed = useMediaQuery(theme.breakpoints.down('md'))
@@ -213,58 +213,12 @@ function TourDetails(props) {
                     </Typography>
                 </Box>
             </Box>
-            {/* <Box
-                paddingY={'18px'}
-                display={'flex'}
-                justifyContent={'center'}
-            >
-                {packages.map((item, index) => (
-                    <Box
-                        width={'300px'}
-                        borderRadius={'8px'}
-                        border={`1px solid ${theme.palette.primary.main}`}
-                        padding={'8px'}
-                        margin={'8px'}
-                        position={'relative'}
-                        sx={{
-                            transition: 'all 0.3s linear',
-                            cursor: 'pointer',
-                            '&:hover': {
-                                backgroundColor: theme.palette.secondary.light
-                            }
-                        }}
-                        
-                    >
-                        <Typography 
-                            textAlign={'center'} 
-                            fontWeight={600} 
-                            fontSize={'18px'}
-                            color={theme.palette.primary.main}
-                            textTransform={'uppercase'}
-                        >
-                            {item.name}
-                        </Typography>
-                        <Typography 
-                            textAlign={'center'} 
-                            fontWeight={600} 
-                            fontSize={'28px'}
-                            color={theme.palette.primary.main}
-                            textTransform={'uppercase'}
-                        >
-                            {item.price}
-                        </Typography>
-                        <Typography
-                            textAlign={'center'}
-                        >
-                            {item.description}
-                        </Typography>
-                    </Box>
-                ))}
-            </Box> */}
+            
             <Divider />
             <Box
                 paddingY={'18px'}
             >
+                <Typography>{details}</Typography>
             </Box>
             
         </Box>

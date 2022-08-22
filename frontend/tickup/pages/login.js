@@ -6,8 +6,7 @@ import {MdOutlineVisibility, MdOutlineVisibilityOff} from 'react-icons/md'
 import Link from 'next/link'
 import CustomerLogin from '../sections/CustomerLogin'
 import SellerLogin from '../sections/SellerLogin'
-
-
+import Head from 'next/head'
 
 function login() {
     const theme = useTheme()
@@ -21,6 +20,9 @@ function login() {
             minHeight={'80vh'}
             backgroundColor={theme.palette.secondary.light}
         >
+            <Head>
+                <title>Login - TickUp</title>
+            </Head>
             <Container>
                 <Grid container spacing={2} alignItems={'center'}>
                     <Grid item xs={12} md={6} lg={6}>

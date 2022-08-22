@@ -22,7 +22,7 @@ function index(props) {
     return (
         <>
             <Topbar handleOpenSidebar={handleOpenSidebar} userData={userData} />
-            <Sidebar isOpen={isOpen} handleCloseSidebar={handleCloseSidebar} />
+            <Sidebar isOpen={isOpen} handleCloseSidebar={handleCloseSidebar} userData={userData} />
             <Box
                 minHeight={'80vh'}
             >

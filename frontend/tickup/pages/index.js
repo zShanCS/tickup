@@ -6,8 +6,7 @@ import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 import TourCard from '../components/TourCard'
 import PageLoader from '../sections/PageLoader'
-
-
+import Head from 'next/head'
 
 export default function Home() {
     const theme = useTheme()
@@ -20,6 +19,9 @@ export default function Home() {
             width={'100%'}
             marginY={'28px'}
         >
+            <Head>
+                <title>TickUp</title>
+            </Head>
             <PageLoader />
             {/* <Container maxWidth="xl">
                 <Box
